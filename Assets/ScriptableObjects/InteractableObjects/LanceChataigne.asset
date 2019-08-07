@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e201a5c7fda0845a9eb0f261cd6d3a, type: 3}
+  m_Name: LanceChataigne
+  m_EditorClassIdentifier: 
+  interactableObjectType: 1
+  leftHandleDefaultRotation: {x: 281.28467, y: 270.00195, z: 180.00204}
+  rightHandleDefaultRotation: {x: 26.000647, y: 344.43573, z: 86.009125}
+  leftHandleDefaultPosition: {x: -0.00017, y: 0.00242, z: -0.0043}
+  rightHandleDefaultPosition: {x: 0.00806, y: -0.00613, z: 0.00212}
+  fireRate: 1
+  bulletSpeed: 2000
+  bulletsNumber: 5
+  bulletPrefab: {fileID: 6784636351144483013, guid: 65c7a844ed8677b48930c55386b8099a,
+    type: 3}
