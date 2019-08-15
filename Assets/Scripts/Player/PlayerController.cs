@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     [Header("Player settings")]
     [SerializeField] private float _playerSpeed;
     [SerializeField] private float _playerJumpHeight;
+    [SerializeField] private float _distanceJumpAnticipation;
+    [SerializeField] private float _minimumDistanceForAnticipationAnimation;
+    [SerializeField] private float _playerAccelerationSpeed = 1.0f;
     [SerializeField] private bool _isGrounded = false;
     
 
@@ -40,7 +43,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     //Not serialized and private variables
     private float _horizontalAxis = 0;
     private float _playerDirection = 90;
-    private bool _jumpToggle = false;
+    private float _accelerationValue = 0.0f;
     private bool _previouslyGrounded = false;
     private float _fallingDistanceBase = 0.0f;
     private float _fallingTimer = 0.0f;
@@ -103,8 +106,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
     private void Start()
     {
-        //Register input actions relative to the InputMaster
-
+        
     }
    
 
@@ -130,9 +132,19 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
 
         //Set the  timer relatively to the player grounded bool
-        if (_isGrounded) _fallingTimer = 0.0f;
+        if (_isGrounded)
+            _fallingTimer = 0.0f;
         else
             _fallingTimer += Time.deltaTime;
+
+        //Reset the acceleration value if the movement is null
+        if (_horizontalAxis == 0)
+            _accelerationValue = 0.0f;
+        else
+            _accelerationValue = Mathf.Clamp(_accelerationValue + Time.deltaTime * _playerAccelerationSpeed, 0.0f, 1.0f);
+
+        //Send the value to the animator
+        _playerAnimation.SetFloat("acceleration", _accelerationValue);
 
 
         //If the player is not anymore grounded
@@ -142,24 +154,29 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         _previouslyGrounded = _isGrounded;
 
 
-    }
-
-    private void FixedUpdate()
-    {
         CheckGrounded();
         CheckObstacleDirection();
         PlayerModelRotation();
 
-        _rigid.MovePosition(transform.position + _moveDirection);
-    }
 
+        //Before movement, we need to apply the acceleration value to perform a smooth start on the animation
+        Vector3 acceleratedMoveDirection = _moveDirection;
+        acceleratedMoveDirection.x = acceleratedMoveDirection.x * _accelerationValue;
+
+        //_rigid.MovePosition(transform.position + acceleratedMoveDirection);
+        _rigid.velocity = new Vector3(acceleratedMoveDirection.x, _rigid.velocity.y, _rigid.velocity.z);
+
+
+    }
 
     private bool CheckGrounded()
     {
+        //init values for the ground detection
         origin = transform.position + offsetOrigin;
         direction = -transform.up;
         bool isGrounded = false;
         RaycastHit hit;
+
         if(Physics.SphereCast(origin, sphereRadius, direction, out hit, maxDistance, _layerMaskForGrounded, QueryTriggerInteraction.UseGlobal))
         {
             _objectFloor = hit.transform.gameObject;
@@ -173,6 +190,19 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         }
 
         return isGrounded;
+    }
+
+    private float GetDistanceToTheGround()
+    {
+        //init values for the ground detection
+        origin = transform.position + offsetOrigin;
+        direction = -transform.up;
+        RaycastHit hit;
+        if(Physics.SphereCast(origin, sphereRadius, direction, out hit, 1000f, _layerMaskForGrounded, QueryTriggerInteraction.UseGlobal))
+        {
+            return hit.distance;
+        }
+        return 0.0f;
     }
 
     void CheckObstacleDirection()
@@ -257,18 +287,10 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     {
         if (_canMove)
         {
-            _jumpToggle = true;
-
             if (_isGrounded)
             {
-                if (_jumpToggle)
-                {
-                    //_moveDirection.y = _playerJumpHeight;
-                    _rigid.AddForce(Vector3.up * _playerJumpHeight);
-                    _playerAnimation.Play("Paoli_jump");
-
-                    _jumpToggle = false;
-                }
+                _rigid.AddForce(Vector3.up * _playerJumpHeight);
+                _playerAnimation.Play("Paoli_jump");
             }
         }
     }
@@ -306,13 +328,19 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         if (!_playerAnimation)
             return;
 
-        _playerAnimation.SetBool("grounded", _isGrounded);
+        //Predictions on the jumps and falls
+        if(!_isGrounded && _rigid.velocity.y < 0.0f)
+        {
+            if(_playerAnimation.GetCurrentAnimatorStateInfo(0).IsName("Paoli_jump"))
+            {
+                print(GetDistanceToTheGround() / Physics.gravity.y);
+            }
+        }
 
+        //Assign the movement animation (walk)
         bool isWalking = false;
         if (_horizontalAxis != 0)
             isWalking = true;
-
-
         _playerAnimation.SetBool("walk", isWalking);
     }
 
