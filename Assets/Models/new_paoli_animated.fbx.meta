@@ -20,6 +20,9 @@ ModelImporter:
     second: root|h_Paoli_jumpMiddle
   - first:
       74: -1848518024225429218
+    second: root|h_Paoli_jumpMiddle
+  - first:
+      74: 5832498668631536387
     second: root|h_Paoli_jumpEnd
   externalObjects:
   - first:
@@ -253,8 +256,8 @@ ModelImporter:
       name: root|h_Paoli_jumpBegin
       takeName: root|h_Paoli_jump
       internalID: 8964262058843293350
-      firstFrame: 14
-      lastFrame: 23
+      firstFrame: 13
+      lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -264,12 +267,41 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 0
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
-      heightFromFeet: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: root|h_Paoli_jumpMiddle
+      takeName: root|h_Paoli_jump
+      internalID: -1848518024225429218
+      firstFrame: 25
+      lastFrame: 35
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -281,8 +313,8 @@ ModelImporter:
     - serializedVersion: 16
       name: root|h_Paoli_jumpEnd
       takeName: root|h_Paoli_jump
-      internalID: -1848518024225429218
-      firstFrame: 29
+      internalID: 5832498668631536387
+      firstFrame: 35
       lastFrame: 58
       wrapMode: 0
       orientationOffsetY: 0
@@ -293,12 +325,12 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 0
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
-      heightFromFeet: 1
+      heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []

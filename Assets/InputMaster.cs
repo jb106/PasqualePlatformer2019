@@ -1,9 +1,7 @@
 // GENERATED AUTOMATICALLY FROM 'Assets/InputMaster.inputactions'
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
@@ -21,25 +19,19 @@ public class InputMaster : IInputActionCollection
             ""actions"": [
                 {
                     ""name"": ""Jump"",
+                    ""type"": ""Value"",
                     ""id"": ""50cc44f8-9028-4082-905d-3e4b045d374b"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""Movement"",
+                    ""type"": ""Value"",
                     ""id"": ""d463bebc-aba0-4648-bfc0-a52c663a07fb"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -52,20 +44,18 @@ public class InputMaster : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""qd"",
                     ""id"": ""55092a71-4deb-4802-9827-26e2f83f53bf"",
-                    ""path"": ""1DAxis"",
+                    ""path"": ""1DAxis(whichSideWins=1)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": true,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""negative"",
@@ -76,8 +66,7 @@ public class InputMaster : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""positive"",
@@ -88,8 +77,40 @@ public class InputMaster : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""arrows"",
+                    ""id"": ""16496565-990c-4a07-9bc5-cf76bbf6d19b"",
+                    ""path"": ""1DAxis(whichSideWins=1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""4c3924cd-d2d3-4d8a-a5e5-c1ea9925d584"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""80f1f04e-5874-444d-a75b-ea623e14b1b0"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -99,14 +120,11 @@ public class InputMaster : IInputActionCollection
             ""actions"": [
                 {
                     ""name"": ""Interact"",
+                    ""type"": ""Value"",
                     ""id"": ""2b9a4acd-87b1-4933-8b8a-58aaa74c5589"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -119,8 +137,7 @@ public class InputMaster : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -130,14 +147,11 @@ public class InputMaster : IInputActionCollection
             ""actions"": [
                 {
                     ""name"": ""Fire"",
+                    ""type"": ""Value"",
                     ""id"": ""6ab54a18-0785-43cf-aeac-139bf7930228"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -150,8 +164,7 @@ public class InputMaster : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""Fire"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -187,10 +200,7 @@ public class InputMaster : IInputActionCollection
         set => asset.devices = value;
     }
 
-    public ReadOnlyArray<InputControlScheme> controlSchemes
-    {
-        get => asset.controlSchemes;
-    }
+    public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
     public bool Contains(InputAction action)
     {
@@ -218,21 +228,20 @@ public class InputMaster : IInputActionCollection
     }
 
     // PlayerMovement
-    private InputActionMap m_PlayerMovement;
+    private readonly InputActionMap m_PlayerMovement;
     private IPlayerMovementActions m_PlayerMovementActionsCallbackInterface;
-    private InputAction m_PlayerMovement_Jump;
-    private InputAction m_PlayerMovement_Movement;
+    private readonly InputAction m_PlayerMovement_Jump;
+    private readonly InputAction m_PlayerMovement_Movement;
     public struct PlayerMovementActions
     {
         private InputMaster m_Wrapper;
         public PlayerMovementActions(InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Jump { get { return m_Wrapper.m_PlayerMovement_Jump; } }
-        public InputAction @Movement { get { return m_Wrapper.m_PlayerMovement_Movement; } }
+        public InputAction @Jump => m_Wrapper.m_PlayerMovement_Jump;
+        public InputAction @Movement => m_Wrapper.m_PlayerMovement_Movement;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
-        public bool enabled { get { return Get().enabled; } }
-        public InputActionMap Clone() { return Get().Clone(); }
+        public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(PlayerMovementActions set) { return set.Get(); }
         public void SetCallbacks(IPlayerMovementActions instance)
         {
@@ -257,28 +266,21 @@ public class InputMaster : IInputActionCollection
             }
         }
     }
-    public PlayerMovementActions @PlayerMovement
-    {
-        get
-        {
-            return new PlayerMovementActions(this);
-        }
-    }
+    public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
 
     // PlayerInteraction
-    private InputActionMap m_PlayerInteraction;
+    private readonly InputActionMap m_PlayerInteraction;
     private IPlayerInteractionActions m_PlayerInteractionActionsCallbackInterface;
-    private InputAction m_PlayerInteraction_Interact;
+    private readonly InputAction m_PlayerInteraction_Interact;
     public struct PlayerInteractionActions
     {
         private InputMaster m_Wrapper;
         public PlayerInteractionActions(InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Interact { get { return m_Wrapper.m_PlayerInteraction_Interact; } }
+        public InputAction @Interact => m_Wrapper.m_PlayerInteraction_Interact;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInteraction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
-        public bool enabled { get { return Get().enabled; } }
-        public InputActionMap Clone() { return Get().Clone(); }
+        public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(PlayerInteractionActions set) { return set.Get(); }
         public void SetCallbacks(IPlayerInteractionActions instance)
         {
@@ -297,28 +299,21 @@ public class InputMaster : IInputActionCollection
             }
         }
     }
-    public PlayerInteractionActions @PlayerInteraction
-    {
-        get
-        {
-            return new PlayerInteractionActions(this);
-        }
-    }
+    public PlayerInteractionActions @PlayerInteraction => new PlayerInteractionActions(this);
 
     // PlayerCombat
-    private InputActionMap m_PlayerCombat;
+    private readonly InputActionMap m_PlayerCombat;
     private IPlayerCombatActions m_PlayerCombatActionsCallbackInterface;
-    private InputAction m_PlayerCombat_Fire;
+    private readonly InputAction m_PlayerCombat_Fire;
     public struct PlayerCombatActions
     {
         private InputMaster m_Wrapper;
         public PlayerCombatActions(InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Fire { get { return m_Wrapper.m_PlayerCombat_Fire; } }
+        public InputAction @Fire => m_Wrapper.m_PlayerCombat_Fire;
         public InputActionMap Get() { return m_Wrapper.m_PlayerCombat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
-        public bool enabled { get { return Get().enabled; } }
-        public InputActionMap Clone() { return Get().Clone(); }
+        public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(PlayerCombatActions set) { return set.Get(); }
         public void SetCallbacks(IPlayerCombatActions instance)
         {
@@ -337,13 +332,7 @@ public class InputMaster : IInputActionCollection
             }
         }
     }
-    public PlayerCombatActions @PlayerCombat
-    {
-        get
-        {
-            return new PlayerCombatActions(this);
-        }
-    }
+    public PlayerCombatActions @PlayerCombat => new PlayerCombatActions(this);
     public interface IPlayerMovementActions
     {
         void OnJump(InputAction.CallbackContext context);

@@ -4,6 +4,8 @@ using UnityEngine;
 using RootMotion.FinalIK;
 using UnityEngine.InputSystem;
 
+
+
 public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementActions
 {
 
@@ -22,7 +24,8 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
     [Header("Components variables")]
     [SerializeField] private Rigidbody _rigid = null;
-    [SerializeField] private CapsuleCollider _collider = null;
+    [SerializeField] private CapsuleCollider _collider1 = null;
+    [SerializeField] private CapsuleCollider _collider2 = null;
     [SerializeField] private Animator _playerAnimation = null;
     [SerializeField] private FullBodyBipedIK _fullBodyBipedIK = null;
 
@@ -39,14 +42,19 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     public Vector3 offsetOrigin;
     public LayerMask _layerMaskForGrounded;
     public float currentHitDistance;
+    public float _distanceToGroundSaved = -1.0f;
 
     //Not serialized and private variables
     private float _horizontalAxis = 0;
     private float _playerDirection = 90;
+    private bool _isPlayerMoving = false;
     private float _accelerationValue = 0.0f;
     private bool _previouslyGrounded = false;
     private float _fallingDistanceBase = 0.0f;
     private float _fallingTimer = 0.0f;
+    private bool _skipLandingAnimation = false;
+
+    private Vector3 _predictionPosition = new Vector3();
 
     private bool _hittingLeftWall;
     private bool _hittingRightWall;
@@ -127,6 +135,13 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
             if (_fallingDistanceBase > transform.position.y)
             {
                 float fallingDistance = _fallingDistanceBase - transform.position.y;
+                _skipLandingAnimation = false;
+            }
+            else
+            {
+                _skipLandingAnimation = true;
+                if (_playerAnimation.GetCurrentAnimatorStateInfo(0).IsName("Paoli_jump_middle"))
+                    _playerAnimation.SetTrigger("skip_jump_end");
             }
         }
 
@@ -160,7 +175,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
 
         //Before movement, we need to apply the acceleration value to perform a smooth start on the animation
-        Vector3 acceleratedMoveDirection = _moveDirection;
+        Vector3 acceleratedMoveDirection = _moveDirection * Time.deltaTime;
         acceleratedMoveDirection.x = acceleratedMoveDirection.x * _accelerationValue;
 
         //_rigid.MovePosition(transform.position + acceleratedMoveDirection);
@@ -200,6 +215,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         RaycastHit hit;
         if(Physics.SphereCast(origin, sphereRadius, direction, out hit, 1000f, _layerMaskForGrounded, QueryTriggerInteraction.UseGlobal))
         {
+            _predictionPosition = hit.point;
             return hit.distance;
         }
         return 0.0f;
@@ -236,7 +252,10 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     {
         Gizmos.color = Color.red;
         Debug.DrawLine(origin, origin + direction * currentHitDistance);
-        Gizmos.DrawWireSphere(origin + direction * currentHitDistance, sphereRadius); 
+        Gizmos.DrawWireSphere(origin + direction * currentHitDistance, sphereRadius);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(_predictionPosition, 1.0f);
 
     }
 
@@ -251,6 +270,8 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         //If _canMove is set to false, we need to set the movement to 0 to stop the player
         if (!_canMove)
             _horizontalAxis = 0.0f;
+
+        _isPlayerMoving = _horizontalAxis == 0.0f ? false : true;
 
         //Limit movement to prevent the player from running in walls (friction issue)
         if (_horizontalAxis < 0)
@@ -268,19 +289,16 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
             desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
         }
 
-        _moveDirection.x = desiredMove.x * _playerSpeed;
-
+        _moveDirection = desiredMove * _playerSpeed;
 
         //Check if the object where the player is on is moving and add this velocity to the player movement
         if(_objectFloor && _isGrounded)
         {
-            if(_objectFloor.GetComponent<MovablePlatform>())
+            if (_objectFloor.GetComponent<MovablePlatform>())
             {
                 _moveDirection += _objectFloor.GetComponent<MovablePlatform>().movement;
             }
         }
-
-        _moveDirection = _moveDirection * Time.deltaTime;
     }
 
     private void PlayerJump()
@@ -291,6 +309,9 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
             {
                 _rigid.AddForce(Vector3.up * _playerJumpHeight);
                 _playerAnimation.Play("Paoli_jump");
+                _collider1.enabled = false;
+                _collider2.enabled = true;
+
             }
         }
     }
@@ -328,14 +349,39 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         if (!_playerAnimation)
             return;
 
-        //Predictions on the jumps and falls
-        if(!_isGrounded && _rigid.velocity.y < 0.0f)
+
+        if (!_isGrounded)
         {
-            if(_playerAnimation.GetCurrentAnimatorStateInfo(0).IsName("Paoli_jump"))
+            if(_rigid.velocity.y < 0.0f)
             {
-                print(GetDistanceToTheGround() / Physics.gravity.y);
+                if(_distanceToGroundSaved==-1.0f)
+                {
+                    _distanceToGroundSaved = GetDistanceToTheGround();
+                }
+
+                _collider1.enabled = true;
+                _collider2.enabled = false;
+
             }
         }
+        else
+        {
+            if (_playerAnimation.GetCurrentAnimatorStateInfo(0).IsName("Paoli_jump_middle"))
+            {
+                if(!_skipLandingAnimation)
+                    _playerAnimation.Play("Paoli_jump_end");
+            }
+
+            _playerAnimation.SetFloat("jump_progression", 0.0f);
+            _distanceToGroundSaved = -1.0f;
+        }
+
+        float progression = GetDistanceToTheGround() / _distanceToGroundSaved;
+        progression = progression - 1.0f;
+        progression = -progression;
+
+        if (_distanceToGroundSaved != -1.0f)
+            _playerAnimation.SetFloat("jump_progression", progression);
 
         //Assign the movement animation (walk)
         bool isWalking = false;
