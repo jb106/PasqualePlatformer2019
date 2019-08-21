@@ -47,6 +47,17 @@ public class InputMaster : IInputActionCollection
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""acf6608d-695a-4fb9-b559-20773f9e0f69"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""qd"",
                     ""id"": ""55092a71-4deb-4802-9827-26e2f83f53bf"",
                     ""path"": ""1DAxis(whichSideWins=1)"",
@@ -111,6 +122,17 @@ public class InputMaster : IInputActionCollection
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1966dd0c-509f-45ee-a801-855841dc7a2a"",
+                    ""path"": ""<Gamepad>/leftStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },

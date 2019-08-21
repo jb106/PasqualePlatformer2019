@@ -24,8 +24,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
     [Header("Components variables")]
     [SerializeField] private Rigidbody _rigid = null;
-    [SerializeField] private CapsuleCollider _collider1 = null;
-    [SerializeField] private CapsuleCollider _collider2 = null;
+    [SerializeField] private CapsuleCollider _collider = null;
     [SerializeField] private Animator _playerAnimation = null;
     [SerializeField] private FullBodyBipedIK _fullBodyBipedIK = null;
 
@@ -309,8 +308,6 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
             {
                 _rigid.AddForce(Vector3.up * _playerJumpHeight);
                 _playerAnimation.Play("Paoli_jump");
-                _collider1.enabled = false;
-                _collider2.enabled = true;
 
             }
         }
@@ -349,6 +346,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         if (!_playerAnimation)
             return;
 
+        _playerAnimation.SetBool("grounded", _isGrounded);
 
         if (!_isGrounded)
         {
@@ -358,9 +356,6 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
                 {
                     _distanceToGroundSaved = GetDistanceToTheGround();
                 }
-
-                _collider1.enabled = true;
-                _collider2.enabled = false;
 
             }
         }
