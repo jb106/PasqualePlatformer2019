@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     [Header("Other variables")]
     [SerializeField] private Vector3 _moveDirection = new Vector3();
     [SerializeField] private GameObject _objectFloor = null;
+    [SerializeField] private bool _jumpInProgress = false;
 
 
     public float sphereRadius;
@@ -304,10 +305,11 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     {
         if (_canMove)
         {
-            if (_isGrounded)
+            if (_isGrounded && !_jumpInProgress)
             {
                 _rigid.AddForce(Vector3.up * _playerJumpHeight);
                 _playerAnimation.Play("Paoli_jump");
+                _jumpInProgress = true;
 
             }
         }
@@ -357,6 +359,9 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
                     _distanceToGroundSaved = GetDistanceToTheGround();
                 }
 
+                if (!_jumpInProgress && !_playerAnimation.GetCurrentAnimatorStateInfo(0).IsName("Paoli_jump_middle"))
+                    _playerAnimation.Play("Paoli_jump_middle");
+
             }
         }
         else
@@ -365,6 +370,9 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
             {
                 if(!_skipLandingAnimation)
                     _playerAnimation.Play("Paoli_jump_end");
+
+                if (_jumpInProgress)
+                    _jumpInProgress = false;
             }
 
             _playerAnimation.SetFloat("jump_progression", 0.0f);

@@ -274,8 +274,8 @@ ModelImporter:
       name: root|h_Paoli_jumpBegin
       takeName: root|h_Paoli_jump
       internalID: 8964262058843293350
-      firstFrame: 20
-      lastFrame: 27
+      firstFrame: 24
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -303,7 +303,7 @@ ModelImporter:
       name: root|h_Paoli_jumpMiddle
       takeName: root|h_Paoli_jump
       internalID: -1848518024225429218
-      firstFrame: 28
+      firstFrame: 30
       lastFrame: 44
       wrapMode: 0
       orientationOffsetY: 0
