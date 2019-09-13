@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     [SerializeField] private float _playerJumpHeight;
     [SerializeField] private float _distanceJumpAnticipation;
     [SerializeField] private float _minimumDistanceForAnticipationAnimation;
+    [SerializeField] private float _minimumDistanceForLandingAnimationWithoutJump = 1.0f;
     [SerializeField] private float _playerAccelerationSpeed = 1.0f;
     [SerializeField] private bool _isGrounded = false;
     
@@ -360,7 +361,9 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
                 }
 
                 if (!_jumpInProgress && !_playerAnimation.GetCurrentAnimatorStateInfo(0).IsName("Paoli_jump_middle"))
-                    _playerAnimation.Play("Paoli_jump_middle");
+                    //Additionnal condition to check the minimum distance required to trigger the landing animation without jump
+                    if(GetDistanceToTheGround() > _minimumDistanceForLandingAnimationWithoutJump)
+                        _playerAnimation.Play("Paoli_jump_middle");
 
             }
         }

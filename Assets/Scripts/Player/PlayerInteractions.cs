@@ -30,7 +30,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
     private Transform _leftHandHandle, _rightHandHandle;
 
     //This boolean is useful when we have delays on grabing objects so if the thing is processing something we can't react to player input
-    private bool _isProcessing = false;
+    [SerializeField] private bool _isProcessing = false;
 
     private Vector3 _bodyOffsetPosition = new Vector3();
     private float _handsWeight = 0.0f;
@@ -64,6 +64,10 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
     public void OnInteract(InputAction.CallbackContext context)
     {
+        //Security to avoid executing the code multiple time if he is already in a coroutine instance
+        if (_isProcessing)
+            return;
+
         //Key to release an object
         if (_isCaryingSomething)
         {
@@ -76,7 +80,6 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
                 //Check if the player is facing the object to avoid bug because the player is not turned toward the object
                 if (_interactableTarget.GetComponent<InteractableObject>().playerSide != _playerController.GetPlayerFacingDirection())
                     StartCoroutine(StartGrabingObject());
-
             }
         }
     }
@@ -265,6 +268,9 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
         ReleaseObject();
         _handsWeight = 0.0f;
+
+        //Security wait before doing the next action which is grab object (if not the script will release and instant grab back the object)
+        yield return new WaitForSeconds(1f);
 
         _isProcessing = false;
     }
