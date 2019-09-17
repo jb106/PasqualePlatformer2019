@@ -23,7 +23,7 @@ public class InputMaster : IInputActionCollection
                     ""id"": ""50cc44f8-9028-4082-905d-3e4b045d374b"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Movement"",
@@ -160,6 +160,17 @@ public class InputMaster : IInputActionCollection
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8055568-3bcb-444b-929c-6dfeb951ffbe"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -182,6 +193,17 @@ public class InputMaster : IInputActionCollection
                     ""id"": ""3fe6b238-9899-4225-8a86-f771e374a05a"",
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7bd74e76-057b-41ab-af44-f3fb0ca77e70"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Fire"",

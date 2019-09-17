@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     [Header("Player settings")]
     [SerializeField] private float _playerSpeed;
     [SerializeField] private float _playerJumpHeight;
+    [SerializeField] private float _minimumMovementValue;
     [SerializeField] private float _distanceJumpAnticipation;
     [SerializeField] private float _minimumDistanceForAnticipationAnimation;
     [SerializeField] private float _minimumDistanceForLandingAnimationWithoutJump = 1.0f;
@@ -160,7 +161,9 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
             _accelerationValue = Mathf.Clamp(_accelerationValue + Time.deltaTime * _playerAccelerationSpeed, 0.0f, 1.0f);
 
         //Send the value to the animator
-        _playerAnimation.SetFloat("acceleration", _accelerationValue);
+        //With lerp <3
+        float lerpAcceleration = Mathf.Lerp(_playerAnimation.GetFloat("acceleration"), _accelerationValue, Time.deltaTime * 4f);
+        _playerAnimation.SetFloat("acceleration", lerpAcceleration);
 
 
         //If the player is not anymore grounded
@@ -265,8 +268,18 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         if (!_rigid)
             return;
 
+        float processedMovementValue = 0.0f;
+
+        if (movementValue > 0 && movementValue < _minimumMovementValue)
+            processedMovementValue = _minimumMovementValue;
+        else if (movementValue < 0 && movementValue > -_minimumMovementValue)
+            processedMovementValue = -_minimumMovementValue;
+        else
+            processedMovementValue = movementValue;
+
+
         //Get player movement
-        _horizontalAxis = movementValue;
+        _horizontalAxis = processedMovementValue;
 
         //If _canMove is set to false, we need to set the movement to 0 to stop the player
         if (!_canMove)
@@ -290,7 +303,14 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
             desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
         }
 
-        _moveDirection = desiredMove * _playerSpeed;
+        float multiplier_stick = processedMovementValue;
+        if (multiplier_stick < 0) multiplier_stick = -multiplier_stick;
+
+        //Set the stick speed (ANIMATION PART) / wr = WALK RUN
+        _playerAnimation.SetFloat("movement_value", Mathf.Clamp(multiplier_stick + _minimumMovementValue, 0, 1.0f));
+        _playerAnimation.SetFloat("blend_wr_value", multiplier_stick);
+
+        _moveDirection = desiredMove * _playerSpeed * multiplier_stick;
 
         //Check if the object where the player is on is moving and add this velocity to the player movement
         if(_objectFloor && _isGrounded)
@@ -308,6 +328,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         {
             if (_isGrounded && !_jumpInProgress)
             {
+                _rigid.velocity = new Vector3(_rigid.velocity.x, 0, _rigid.velocity.z);
                 _rigid.AddForce(Vector3.up * _playerJumpHeight);
                 _playerAnimation.Play("Paoli_jump");
                 _jumpInProgress = true;
@@ -363,7 +384,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
                 if (!_jumpInProgress && !_playerAnimation.GetCurrentAnimatorStateInfo(0).IsName("Paoli_jump_middle"))
                     //Additionnal condition to check the minimum distance required to trigger the landing animation without jump
                     if(GetDistanceToTheGround() > _minimumDistanceForLandingAnimationWithoutJump)
-                        _playerAnimation.Play("Paoli_jump_middle");
+                        _playerAnimation.CrossFade("Paoli_jump_middle", 0.1f);
 
             }
         }
@@ -382,12 +403,12 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
             _distanceToGroundSaved = -1.0f;
         }
 
-        float progression = GetDistanceToTheGround() / _distanceToGroundSaved;
-        progression = progression - 1.0f;
-        progression = -progression;
+        float jumpProgression = GetDistanceToTheGround() / _distanceToGroundSaved;
+        jumpProgression = jumpProgression - 1.0f;
+        jumpProgression = -jumpProgression;
 
         if (_distanceToGroundSaved != -1.0f)
-            _playerAnimation.SetFloat("jump_progression", progression);
+            _playerAnimation.SetFloat("jump_progression", jumpProgression);
 
         //Assign the movement animation (walk)
         bool isWalking = false;

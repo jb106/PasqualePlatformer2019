@@ -9,6 +9,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
     [Header("Interaction settings")]
     [SerializeField] private float _distanceToInteract = 3.0f;
     [SerializeField] private float _bodyLevelWhenCrouching = 2.5f;
+    [SerializeField] private float _objectThrowForce = 10f;
 
 
     [Header("References")]
@@ -158,7 +159,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
         _currentInteractableObjectCarried.GetComponent<Collider>().isTrigger = false;
 
         //Apply a force relative to the player movement
-        _currentInteractableObjectCarried.GetComponent<Rigidbody>().AddForce(_playerController.GetMoveDirection() * 5000f);
+        _currentInteractableObjectCarried.GetComponent<Rigidbody>().AddForce(_playerController.GetMoveDirection() * Time.deltaTime * _objectThrowForce * 100f);
 
         //Random rotation at throwing
         Vector3 torque = new Vector3();
@@ -270,7 +271,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
         _handsWeight = 0.0f;
 
         //Security wait before doing the next action which is grab object (if not the script will release and instant grab back the object)
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         _isProcessing = false;
     }

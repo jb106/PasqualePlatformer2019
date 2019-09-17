@@ -91,6 +91,7 @@ public class InteractableObject : MonoBehaviour
 
     private void SaveHandlesToData()
     {
+
         return;
 
         interactableObjectData.leftHandleDefaultRotation = GetLeftHandle().localRotation.eulerAngles;
