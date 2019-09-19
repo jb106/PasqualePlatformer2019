@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionActions
 {
+    public static PlayerInteractions Instance = null;
+
+
     [Header("Interaction settings")]
     [SerializeField] private float _distanceToInteract = 3.0f;
     [SerializeField] private float _bodyLevelWhenCrouching = 2.5f;
@@ -31,19 +34,26 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
     private Transform _leftHandHandle, _rightHandHandle;
 
     //This boolean is useful when we have delays on grabing objects so if the thing is processing something we can't react to player input
-    [SerializeField] private bool _isProcessing = false;
+    private bool _isProcessing = false;
 
     private Vector3 _bodyOffsetPosition = new Vector3();
     private float _handsWeight = 0.0f;
     private float _handLerpValue = 0.0f;
     private InputMaster _inputMaster = null;
 
+    private bool _canInteract = true;
+
     //Getters
     public GameObject GetCurrentInteractableObjectCarried() { return _currentInteractableObjectCarried; }
     public bool CheckIfPlayerIsCarryingSomething() { return _isCaryingSomething; }
 
+    //Setter
+    public void SetPlayerCanInteract(bool active) { _canInteract = active; }
+
     void Awake()
     {
+        Instance = this;
+
         _inputMaster = new InputMaster();
         _inputMaster.PlayerInteraction.SetCallbacks(this);
     }
@@ -67,6 +77,9 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
     {
         //Security to avoid executing the code multiple time if he is already in a coroutine instance
         if (_isProcessing)
+            return;
+
+        if (!_canInteract)
             return;
 
         //Key to release an object
@@ -118,6 +131,14 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
         if (_isProcessing)
             return;
+
+        if(!_canInteract)
+        {
+            if (_isCaryingSomething)
+            {
+                StartCoroutine(StartReleaseObject());
+            }
+        }
 
         
         if(_isCaryingSomething)

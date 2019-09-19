@@ -19,9 +19,9 @@ public class InputMaster : IInputActionCollection
             ""actions"": [
                 {
                     ""name"": ""Jump"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""50cc44f8-9028-4082-905d-3e4b045d374b"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
                 },
@@ -29,7 +29,7 @@ public class InputMaster : IInputActionCollection
                     ""name"": ""Movement"",
                     ""type"": ""Value"",
                     ""id"": ""d463bebc-aba0-4648-bfc0-a52c663a07fb"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Stick"",
                     ""processors"": """",
                     ""interactions"": """"
                 }

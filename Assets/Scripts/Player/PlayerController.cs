@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
+using RootMotion.Dynamics;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 
 
 public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementActions
 {
+    public static PlayerController Instance = null;
+
 
     [Header("Player settings")]
     [SerializeField] private float _playerSpeed;
@@ -21,15 +25,16 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     
 
     [Header("Objects references")]
-    [SerializeField] private Transform _playerModel = null;
     [SerializeField] private Transform _playerCamera = null;
+    [SerializeField] private CinemachineVirtualCamera _playerVirtualCamera = null;
 
     [Header("Components variables")]
     [SerializeField] private Rigidbody _rigid = null;
     [SerializeField] private CapsuleCollider _collider = null;
     [SerializeField] private Animator _playerAnimation = null;
     [SerializeField] private FullBodyBipedIK _fullBodyBipedIK = null;
-
+    [SerializeField] private PuppetMaster _puppetMaster = null;
+ 
 
     [Header("Other variables")]
     [SerializeField] private Vector3 _moveDirection = new Vector3();
@@ -71,12 +76,19 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     //Getter for certain private variables
     public FullBodyBipedIK GetFullBodyBipedIK() { return _fullBodyBipedIK; }
     public LeftRight GetPlayerFacingDirection() { return _playerFacingDirection; }
-    public Transform GetPlayerModel() { return _playerModel; }
+    public Transform GetPlayerModel() { return transform; }
+    public PuppetMaster GetPuppetMaster() { return _puppetMaster; }
+    public CinemachineVirtualCamera GetPlayerVirtualCamera() { return _playerVirtualCamera; }
+
+    //And Setters
+    public void SetPlayerCanMove(bool active) { _canMove = active; }
 
 
     //Register the player to the GameManager 
     private void Awake()
     {
+        Instance = this;
+
         GameManager.Instance.RegisterPlayer(gameObject);
         GameManager.Instance.RegisterPlayerCamera(_playerCamera.gameObject);
 
@@ -124,7 +136,6 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     {
         PlayerAnimation();
         _isGrounded = CheckGrounded();
-
 
         if (!_previouslyGrounded && _isGrounded)
         {
@@ -179,8 +190,12 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
 
         //Before movement, we need to apply the acceleration value to perform a smooth start on the animation
-        Vector3 acceleratedMoveDirection = _moveDirection * Time.deltaTime;
+        Vector3 acceleratedMoveDirection = _moveDirection * Time.fixedDeltaTime;
         acceleratedMoveDirection.x = acceleratedMoveDirection.x * _accelerationValue;
+
+        //If _canMove is set to false, we need to set the movement to 0 to stop the player
+        if (!_canMove)
+            acceleratedMoveDirection = Vector3.zero;
 
         //_rigid.MovePosition(transform.position + acceleratedMoveDirection);
         _rigid.velocity = new Vector3(acceleratedMoveDirection.x, _rigid.velocity.y, _rigid.velocity.z);
@@ -227,6 +242,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
     void CheckObstacleDirection()
     {
+        /*
         Vector3 offset = new Vector3(0, 2, 0);
         float rayLength = 2.5f;
 
@@ -235,6 +251,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         if(Physics.Raycast(transform.position + offset, -transform.right, out hit, rayLength))
         {
             _hittingLeftWall = true;
+            print("gauche toutEEEE");
         }
         else
         {
@@ -245,11 +262,13 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         if (Physics.Raycast(transform.position + offset, transform.right, out hit, rayLength))
         {
             _hittingRightWall = true;
+            print("droiiite touUUUTEEE");
         }
         else
         {
             _hittingRightWall = false;
         }
+        */
     }
 
     private void OnDrawGizmos()
@@ -277,13 +296,9 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         else
             processedMovementValue = movementValue;
 
-
         //Get player movement
         _horizontalAxis = processedMovementValue;
 
-        //If _canMove is set to false, we need to set the movement to 0 to stop the player
-        if (!_canMove)
-            _horizontalAxis = 0.0f;
 
         _isPlayerMoving = _horizontalAxis == 0.0f ? false : true;
 
@@ -302,6 +317,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         {
             desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
         }
+
 
         float multiplier_stick = processedMovementValue;
         if (multiplier_stick < 0) multiplier_stick = -multiplier_stick;
@@ -339,11 +355,11 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
     private void PlayerModelRotation()
     {
-        if (!_playerModel)
+        if (!_canMove)
             return;
 
         //Get the current player local rotation
-        Vector3 localPlayerModelRotation = _playerModel.transform.localRotation.eulerAngles;
+        Vector3 localPlayerModelRotation = transform.rotation.eulerAngles;
 
         //Decide in which direction the player is facing
         if (_horizontalAxis > 0)
@@ -362,7 +378,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
         //Assign the new direction
         localPlayerModelRotation.y = currentDirection;
-        _playerModel.localRotation = Quaternion.Euler(localPlayerModelRotation);
+        transform.rotation = Quaternion.Euler(localPlayerModelRotation);
     }
 
     private void PlayerAnimation()

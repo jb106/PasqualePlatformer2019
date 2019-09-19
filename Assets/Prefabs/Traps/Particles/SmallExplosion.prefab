@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2356597370706290198}
   - component: {fileID: 2362633130283573872}
   - component: {fileID: 5003616060807099854}
+  - component: {fileID: 9091988738251284344}
   m_Layer: 0
   m_Name: SmallExplosion
   m_TagString: Untagged
@@ -4664,7 +4665,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cedb949dfc6b44aa88e1e82ba6471d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 2
+  lifeTime: 1.5
+--- !u!114 &9091988738251284344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452406419183009628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30fde98301eff4f4b9598991b3a14d37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _explosionRadius: 30
+  _explosionForce: 20000
 --- !u!1 &2452406421384477446
 GameObject:
   m_ObjectHideFlags: 0
