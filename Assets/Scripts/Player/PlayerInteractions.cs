@@ -180,7 +180,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
         _currentInteractableObjectCarried.GetComponent<Collider>().isTrigger = false;
 
         //Apply a force relative to the player movement
-        _currentInteractableObjectCarried.GetComponent<Rigidbody>().AddForce(_playerController.GetMoveDirection() * Time.deltaTime * _objectThrowForce * 100f);
+        _currentInteractableObjectCarried.GetComponent<Rigidbody>().AddForce(_playerController.GetMoveDirection() * Time.fixedDeltaTime * _objectThrowForce * 100f);
 
         //Random rotation at throwing
         Vector3 torque = new Vector3();

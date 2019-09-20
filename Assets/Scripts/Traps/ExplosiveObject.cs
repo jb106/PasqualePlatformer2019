@@ -12,9 +12,6 @@ public class ExplosiveObject : MonoBehaviour
     {
         if (collider.gameObject != transform.parent.gameObject)
         {
-            if (collider.gameObject == transform.gameObject)
-                print("lui meme mon cher");
-
             GameObject explosion = Instantiate(_explosionPrefab);
             explosion.transform.position = transform.position;
             Destroy(transform.parent.gameObject);

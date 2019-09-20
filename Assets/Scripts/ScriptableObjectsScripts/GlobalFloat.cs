@@ -3,12 +3,15 @@ using System.Collections;
 
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/GlobalFloat", order = 1)]
-public class GlobalFloat : ScriptableObject
+public class GlobalFloat : ScriptableObject, ISerializationCallbackReceiver
 {
     public float InitialValue;
-
-    [HideInInspector]
     public float RuntimeValue;
+
+    private void Awake()
+    {
+        RuntimeValue = InitialValue;
+    }
 
     public void OnAfterDeserialize()
     {

@@ -27,16 +27,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2452406419183009628}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 177.82, y: 8.98, z: 3.54}
-  m_LocalScale: {x: 4.3574, y: 4.3574, z: 4.3574}
+  m_LocalScale: {x: 6.49209, y: 6.49209, z: 6.49209}
   m_Children:
   - {fileID: 2451377500196186882}
   - {fileID: 2451377501099690048}
   - {fileID: 2451377501083546988}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
 --- !u!198 &2356597370706290198
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4678,7 +4678,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30fde98301eff4f4b9598991b3a14d37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _explosionRadius: 50
+  _explosionBaseDamage: 100
+  _explosionRadius: 15
   _explosionForce: 5000
 --- !u!1 &2452406421384477446
 GameObject:

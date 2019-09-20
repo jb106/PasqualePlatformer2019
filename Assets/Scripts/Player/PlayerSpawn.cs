@@ -23,9 +23,12 @@ public class PlayerSpawn : MonoBehaviour
         _defaultPosition = transform.position;
     }
 
-    public void TeleportAtDefaultPosition()
+    public void TeleportPlayerAtDefaultPosition(bool teleportPuppetMaster = false)
     {
         transform.position = _defaultPosition;
+
+        if (teleportPuppetMaster)
+            PlayerController.Instance.GetPuppetMaster().transform.position = _defaultPosition;
     }
 
 }

@@ -46,7 +46,13 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
 
     public void TakeDamage(float damage)
     {
-
+        if (playerHealth.RuntimeValue - damage <= 0.0f)
+        {
+            playerHealth.RuntimeValue = 0.0f;
+            Kill();
+        }
+        else
+            playerHealth.RuntimeValue -= damage;
     }
 
     public void Kill()
@@ -73,6 +79,8 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
         PlayerController.Instance.SetCanMove(true);
         PlayerInteractions.Instance.SetPlayerCanInteract(true);
 
+        PlayerController.Instance.ForcePlayerDirection(false);
+
         PlayerController.Instance.GetPlayerVirtualCamera().Follow = _playerControllerHeadX;
 
         PlayerController.Instance.GetPuppetMaster().state = RootMotion.Dynamics.PuppetMaster.State.Alive;
@@ -80,7 +88,7 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
 
         playerStatsPhase = PlayerStatsPhase.Alive;
 
-        PlayerSpawn.Instance.TeleportAtDefaultPosition();
+        PlayerSpawn.Instance.TeleportPlayerAtDefaultPosition(true);
     }
 
     private void Update()

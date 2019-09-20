@@ -428,7 +428,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
         //Assign the movement animation (walk)
         bool isWalking = false;
-        if (_horizontalAxis != 0)
+        if (_horizontalAxis != 0 && _canMove)
             isWalking = true;
         _playerAnimation.SetBool("walk", isWalking);
     }
@@ -438,6 +438,14 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     public void SetCanMove(bool canMove)
     {
         _canMove = canMove;
+    }
+
+    public void ForcePlayerDirection(bool left)
+    {
+        if (left)
+            _playerDirection = 270;
+        else
+            _playerDirection = 90;
     }
 
 
