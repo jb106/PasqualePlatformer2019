@@ -242,7 +242,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
     void CheckObstacleDirection()
     {
-        /*
+        /* BUG HERE BE CAREFUL WITH THIS PIECE OF CODE
         Vector3 offset = new Vector3(0, 2, 0);
         float rayLength = 2.5f;
 

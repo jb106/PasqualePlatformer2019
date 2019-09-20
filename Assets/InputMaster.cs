@@ -211,6 +211,33 @@ public class InputMaster : IInputActionCollection
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PlayerOtherControls"",
+            ""id"": ""3ec697a4-680c-40af-a860-c3b03c73259d"",
+            ""actions"": [
+                {
+                    ""name"": ""Revive"",
+                    ""type"": ""Button"",
+                    ""id"": ""657f7afa-6c02-434d-9f29-99bda2282061"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""35f8ab33-471c-439a-9569-23312f795647"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Revive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -225,6 +252,9 @@ public class InputMaster : IInputActionCollection
         // PlayerCombat
         m_PlayerCombat = asset.GetActionMap("PlayerCombat");
         m_PlayerCombat_Fire = m_PlayerCombat.GetAction("Fire");
+        // PlayerOtherControls
+        m_PlayerOtherControls = asset.GetActionMap("PlayerOtherControls");
+        m_PlayerOtherControls_Revive = m_PlayerOtherControls.GetAction("Revive");
     }
 
     ~InputMaster()
@@ -377,6 +407,39 @@ public class InputMaster : IInputActionCollection
         }
     }
     public PlayerCombatActions @PlayerCombat => new PlayerCombatActions(this);
+
+    // PlayerOtherControls
+    private readonly InputActionMap m_PlayerOtherControls;
+    private IPlayerOtherControlsActions m_PlayerOtherControlsActionsCallbackInterface;
+    private readonly InputAction m_PlayerOtherControls_Revive;
+    public struct PlayerOtherControlsActions
+    {
+        private InputMaster m_Wrapper;
+        public PlayerOtherControlsActions(InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Revive => m_Wrapper.m_PlayerOtherControls_Revive;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerOtherControls; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerOtherControlsActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerOtherControlsActions instance)
+        {
+            if (m_Wrapper.m_PlayerOtherControlsActionsCallbackInterface != null)
+            {
+                Revive.started -= m_Wrapper.m_PlayerOtherControlsActionsCallbackInterface.OnRevive;
+                Revive.performed -= m_Wrapper.m_PlayerOtherControlsActionsCallbackInterface.OnRevive;
+                Revive.canceled -= m_Wrapper.m_PlayerOtherControlsActionsCallbackInterface.OnRevive;
+            }
+            m_Wrapper.m_PlayerOtherControlsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                Revive.started += instance.OnRevive;
+                Revive.performed += instance.OnRevive;
+                Revive.canceled += instance.OnRevive;
+            }
+        }
+    }
+    public PlayerOtherControlsActions @PlayerOtherControls => new PlayerOtherControlsActions(this);
     public interface IPlayerMovementActions
     {
         void OnJump(InputAction.CallbackContext context);
@@ -389,5 +452,9 @@ public class InputMaster : IInputActionCollection
     public interface IPlayerCombatActions
     {
         void OnFire(InputAction.CallbackContext context);
+    }
+    public interface IPlayerOtherControlsActions
+    {
+        void OnRevive(InputAction.CallbackContext context);
     }
 }

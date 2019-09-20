@@ -199,6 +199,33 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "PlayerOtherControls",
+            "id": "3ec697a4-680c-40af-a860-c3b03c73259d",
+            "actions": [
+                {
+                    "name": "Revive",
+                    "type": "Button",
+                    "id": "657f7afa-6c02-434d-9f29-99bda2282061",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "35f8ab33-471c-439a-9569-23312f795647",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Revive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
