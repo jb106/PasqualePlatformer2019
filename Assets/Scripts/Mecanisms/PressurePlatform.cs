@@ -12,6 +12,11 @@ public class PressurePlatform : MonoBehaviour
     [SerializeField] private Color _emptyColor;
     [SerializeField] private Color _fullColor;
 
+    [Header("Event settings")]
+    [SerializeField] private GameObject _objectToContact;
+    [SerializeField] private string _messageToSendWhenFull;
+    [SerializeField] private string _messageToSendWhenNotFull;
+
     [Header("References")]
     [SerializeField] private Transform _topPositionEmpty;
     [SerializeField] private Transform _bottomPositionEmpty;
@@ -44,6 +49,16 @@ public class PressurePlatform : MonoBehaviour
             _indicator.fillAmount = Mathf.Lerp(_indicator.fillAmount, weightLerp, Time.fixedDeltaTime * _uiLerpSpeed);
             Color newColor = Color.Lerp(_emptyColor, _fullColor, weightLerp);
             _indicator.color = Color.Lerp(_indicator.color, newColor, Time.fixedDeltaTime * _uiLerpSpeed);
+        }
+
+        //Message event
+        if(weightLerp>=1.0f)
+        {
+            _objectToContact.SendMessage(_messageToSendWhenFull);
+        }
+        else
+        {
+            _objectToContact.SendMessage(_messageToSendWhenNotFull);
         }
     }
 
