@@ -51,6 +51,7 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
 
     public void TakeDamage(float damage)
     {
+        print("damaouuuu");
         //Verification to kill or just substract health from the player
         if (playerHealth.RuntimeValue - damage <= 0.0f)
         {

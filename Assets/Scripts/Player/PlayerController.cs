@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     public LayerMask _layerMaskForGrounded;
     public float currentHitDistance;
     public float _distanceToGroundSaved = -1.0f;
+    public PressurePlatform _pressurePlatform = null;
 
     //Not serialized and private variables
     private float _horizontalAxis = 0;
@@ -82,6 +83,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     public PuppetMaster GetPuppetMaster() { return _puppetMaster; }
     public CinemachineVirtualCamera GetPlayerVirtualCamera() { return _playerVirtualCamera; }
     public float GetTimerFacingDirection() { return _timerFacingDirection; }
+    public bool GetPlayerJumpStatus() { return _jumpInProgress; }
 
     //And Setters
     public void SetPlayerCanMove(bool active) { _canMove = active; }
@@ -457,6 +459,11 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
             _playerDirection = 90;
     }
 
+
+    public void ChangePlayerRigidBodyMass(float value)
+    {
+        _rigid.mass += value;
+    }
 
     //Getters
     public Vector3 GetMoveDirection()

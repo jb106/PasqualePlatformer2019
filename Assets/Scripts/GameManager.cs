@@ -50,6 +50,12 @@ public class GameManager : MonoBehaviour
         _interactableObjects.Add(interactableObject);
     }
 
+    public void UnregisterInteractableObject(InteractableObject interactableObject)
+    {
+        if (_interactableObjects.Contains(interactableObject))
+            _interactableObjects.Remove(interactableObject);
+    }
+
     public void RegisterPlayer(GameObject playerObject)
     {
         _player = playerObject;

@@ -110,4 +110,17 @@ public class InteractableObject : MonoBehaviour
         GetRightHandle().localPosition = interactableObjectData.rightHandleDefaultPosition;
     }
 
+    public void DestroyInteractableObject()
+    {
+        GameManager.Instance.UnregisterInteractableObject(this);
+
+        if (thisIsCarried)
+        {
+            PlayerInteractions.Instance.ReleaseObject();
+            PlayerInteractions.Instance.ForceStopGrabCoroutineAndRelease();
+        }
+
+        Destroy(gameObject);
+    }
+
 }

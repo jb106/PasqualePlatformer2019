@@ -43,6 +43,10 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
     private bool _canInteract = true;
 
+    //Routines
+    private Coroutine grabRoutine = null;
+    private Coroutine releaseRoutine = null;
+
     //Getters
     public GameObject GetCurrentInteractableObjectCarried() { return _currentInteractableObjectCarried; }
     public bool CheckIfPlayerIsCarryingSomething() { return _isCaryingSomething; }
@@ -85,15 +89,15 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
         //Key to release an object
         if (_isCaryingSomething)
         {
-            StartCoroutine(StartReleaseObject());
+            releaseRoutine = StartCoroutine(StartReleaseObject());
         }
         else
         {
             if (_interactableTarget != null)
             {
                 //Check if the player is facing the object to avoid bug because the player is not turned toward the object
-                if (_interactableTarget.GetComponent<InteractableObject>().playerSide != _playerController.GetPlayerFacingDirection() && PlayerController.Instance.GetTimerFacingDirection() > 0.5f)
-                    StartCoroutine(StartGrabingObject());
+                if (_interactableTarget.GetComponent<InteractableObject>().playerSide != _playerController.GetPlayerFacingDirection() && PlayerController.Instance.GetTimerFacingDirection() > 0.5f && !PlayerController.Instance.GetPlayerJumpStatus())
+                    grabRoutine = StartCoroutine(StartGrabingObject());
             }
         }
     }
@@ -169,26 +173,39 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
         _rightHandHandle = _currentInteractableObjectCarried.GetComponent<InteractableObject>().GetRightHandle();
 
         _handsWeight = 1.0f;
+
+        //Weight things with the rigid body
+        PlayerController.Instance.ChangePlayerRigidBodyMass(_currentInteractableObjectCarried.GetComponent<Rigidbody>().mass);
+        if (PlayerController.Instance._pressurePlatform)
+            PlayerController.Instance._pressurePlatform.ChangeCurrentWeight(_currentInteractableObjectCarried.GetComponent<Rigidbody>().mass);
     }
-    private void ReleaseObject()
+    public void ReleaseObject()
     {
-        //This variable is usefull to check on any InteractableObject if it's carried or not
-        _currentInteractableObjectCarried.GetComponent<InteractableObject>().thisIsCarried = false;
+        if (_currentInteractableObjectCarried)
+        {
+            //This variable is usefull to check on any InteractableObject if it's carried or not
+            _currentInteractableObjectCarried.GetComponent<InteractableObject>().thisIsCarried = false;
 
-        _currentInteractableObjectCarried.transform.parent = null;
-        _currentInteractableObjectCarried.GetComponent<Rigidbody>().isKinematic = false;
-        _currentInteractableObjectCarried.GetComponent<Collider>().isTrigger = false;
+            _currentInteractableObjectCarried.transform.parent = null;
+            _currentInteractableObjectCarried.GetComponent<Rigidbody>().isKinematic = false;
+            _currentInteractableObjectCarried.GetComponent<Collider>().isTrigger = false;
 
-        //Apply a force relative to the player movement
-        _currentInteractableObjectCarried.GetComponent<Rigidbody>().AddForce(_playerController.GetMoveDirection() * Time.fixedDeltaTime * _objectThrowForce * 100f);
+            //Apply a force relative to the player movement
+            _currentInteractableObjectCarried.GetComponent<Rigidbody>().AddForce(_playerController.GetMoveDirection() * Time.fixedDeltaTime * _objectThrowForce * 100f);
 
-        //Random rotation at throwing
-        Vector3 torque = new Vector3();
-        torque.x = Random.Range(-200, 200);
-        torque.y = Random.Range(-200, 200);
-        torque.z = Random.Range(-200, 200);
-        _currentInteractableObjectCarried.GetComponent<Rigidbody>().AddTorque(torque);
+            //Random rotation at throwing
+            Vector3 torque = new Vector3();
+            torque.x = Random.Range(-200, 200);
+            torque.y = Random.Range(-200, 200);
+            torque.z = Random.Range(-200, 200);
+            _currentInteractableObjectCarried.GetComponent<Rigidbody>().AddTorque(torque);
 
+            //Weight things with the rigid body
+            PlayerController.Instance.ChangePlayerRigidBodyMass(-_currentInteractableObjectCarried.GetComponent<Rigidbody>().mass);
+            if (PlayerController.Instance._pressurePlatform)
+                PlayerController.Instance._pressurePlatform.ChangeCurrentWeight(-_currentInteractableObjectCarried.GetComponent<Rigidbody>().mass);
+
+        }
 
         _currentInteractableObjectCarried = null;
         _isCaryingSomething = false;
@@ -264,6 +281,8 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
         _playerController.SetCanMove(true);
         _isProcessing = false;
+
+        grabRoutine = null;
     }
 
     IEnumerator StartReleaseObject()
@@ -295,6 +314,16 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
         //Security wait before doing the next action which is grab object (if not the script will release and instant grab back the object)
         yield return new WaitForSeconds(0.5f);
 
+        _isProcessing = false;
+        releaseRoutine = null;
+    }
+
+    public void ForceStopGrabCoroutineAndRelease()
+    {
+        StopCoroutine(grabRoutine);
+
+        ReleaseObject();
+        _handsWeight = 0.0f;
         _isProcessing = false;
     }
 }

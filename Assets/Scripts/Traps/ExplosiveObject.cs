@@ -14,7 +14,11 @@ public class ExplosiveObject : MonoBehaviour
         {
             GameObject explosion = Instantiate(_explosionPrefab);
             explosion.transform.position = transform.position;
-            Destroy(transform.parent.gameObject);
+
+            if(transform.parent.gameObject.GetComponent<InteractableObject>())
+            {
+                transform.parent.gameObject.GetComponent<InteractableObject>().DestroyInteractableObject();
+            }
         }
         
     }

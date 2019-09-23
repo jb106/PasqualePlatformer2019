@@ -240,7 +240,7 @@ public class InputMaster : IInputActionCollection
                 {
                     ""name"": """",
                     ""id"": ""88efe493-5f92-4d8b-838c-374358f0b06d"",
-                    ""path"": ""<Keyboard>/#(R)"",
+                    ""path"": ""<Keyboard>/#(B)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
