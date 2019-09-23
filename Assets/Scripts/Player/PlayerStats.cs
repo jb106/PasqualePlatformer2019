@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using RootMotion.FinalIK;
 
 public enum PlayerStatsPhase { Alive, Dead}
 
@@ -26,6 +27,10 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
     [Header("Various references")]
     [SerializeField] private Transform _playerControllerHeadX = null;
     [SerializeField] private Transform _puppetMasterHeadX = null;
+    [SerializeField] private HitReaction _hitReaction = null;
+
+    //Getters
+    public HitReaction GetHitReaction() { return _hitReaction; }
 
 
     void OnEnable()
@@ -46,6 +51,7 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
 
     public void TakeDamage(float damage)
     {
+        //Verification to kill or just substract health from the player
         if (playerHealth.RuntimeValue - damage <= 0.0f)
         {
             playerHealth.RuntimeValue = 0.0f;
