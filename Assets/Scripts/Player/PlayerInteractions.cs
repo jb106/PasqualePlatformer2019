@@ -92,7 +92,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
             if (_interactableTarget != null)
             {
                 //Check if the player is facing the object to avoid bug because the player is not turned toward the object
-                if (_interactableTarget.GetComponent<InteractableObject>().playerSide != _playerController.GetPlayerFacingDirection())
+                if (_interactableTarget.GetComponent<InteractableObject>().playerSide != _playerController.GetPlayerFacingDirection() && PlayerController.Instance.GetTimerFacingDirection() > 0.5f)
                     StartCoroutine(StartGrabingObject());
             }
         }
@@ -214,6 +214,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
     {
         _isProcessing = true;
         _playerController.SetCanMove(false);
+
         GrabObject();
 
         float crouchSpeed = 4f;

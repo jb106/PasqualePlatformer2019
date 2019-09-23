@@ -61,6 +61,8 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     private float _fallingTimer = 0.0f;
     private bool _skipLandingAnimation = false;
 
+    private float _timerFacingDirection = 0.0f;
+
     private Vector3 _predictionPosition = new Vector3();
 
     private bool _hittingLeftWall;
@@ -79,6 +81,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     public Transform GetPlayerModel() { return transform; }
     public PuppetMaster GetPuppetMaster() { return _puppetMaster; }
     public CinemachineVirtualCamera GetPlayerVirtualCamera() { return _playerVirtualCamera; }
+    public float GetTimerFacingDirection() { return _timerFacingDirection; }
 
     //And Setters
     public void SetPlayerCanMove(bool active) { _canMove = active; }
@@ -355,6 +358,8 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
     private void PlayerModelRotation()
     {
+        _timerFacingDirection += Time.fixedDeltaTime;
+
         if (!_canMove)
             return;
 
@@ -362,15 +367,19 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         Vector3 localPlayerModelRotation = transform.rotation.eulerAngles;
 
         //Decide in which direction the player is facing
-        if (_horizontalAxis > 0)
+        if (_horizontalAxis > 0 && _playerFacingDirection != LeftRight.Right)
         {
             _playerDirection = 90;
             _playerFacingDirection = LeftRight.Right;
+
+            _timerFacingDirection = 0.0f;
         }
-        else if (_horizontalAxis < 0)
+        else if (_horizontalAxis < 0 && _playerFacingDirection != LeftRight.Left)
         {
             _playerDirection = 270;
             _playerFacingDirection = LeftRight.Left;
+
+            _timerFacingDirection = 0.0f;
         }
 
         //Lerp direction 

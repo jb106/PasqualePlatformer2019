@@ -78,7 +78,6 @@ public class PlayerCombat : MonoBehaviour, InputMaster.IPlayerCombatActions
                 if (_currentFireTimer >= GetInteractableObject().interactableObjectData.fireRate)
                 {
                     _playerInteractions._carryingObjectAnimator.SetTrigger("fire");
-                    _playerController.GetPlayerModel().gameObject.GetComponent<Recoil>().Fire(1f);
 
                     //For multiple bullet firing
                     int bulletIndex = 0;

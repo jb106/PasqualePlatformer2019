@@ -4511,7 +4511,6 @@ GameObject:
   - component: {fileID: 5483930475857463434}
   - component: {fileID: 5483930475857463454}
   - component: {fileID: 1962169577}
-  - component: {fileID: 5483930475857463453}
   - component: {fileID: 5483930475857463452}
   - component: {fileID: 5483930475857463443}
   - component: {fileID: 5483930475857463442}
@@ -5438,82 +5437,6 @@ MonoBehaviour:
     boneLinks:
     - bone: {fileID: 0}
       weight: 1
---- !u!114 &5483930475857463453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5483930475857463433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c613189034e145e5abecee53af1ce0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weight: 1
-  ik: {fileID: 5483930475857463443}
-  aimIK: {fileID: 0}
-  aimIKSolvedLast: 0
-  handedness: 0
-  twoHanded: 1
-  recoilWeight:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.20762932
-      value: 1.0655936
-      inSlope: 0.996112
-      outSlope: 0.996112
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.2936985
-      value: 0.45671898
-      inSlope: -5.6030107
-      outSlope: -5.6030107
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.45283175
-      value: -0.09309336
-      inSlope: -7.52875
-      outSlope: -7.52875
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.17185442
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  magnitudeRandom: 1
-  rotationRandom: {x: 0, y: 0, z: 0}
-  handRotationOffset: {x: 0, y: 0, z: 0}
-  blendTime: 0
-  offsets:
-  - offset: {x: 0, y: -0.3, z: 0.25}
-    additivity: 0.429
-    maxAdditiveOffsetMag: 0
-    effectorLinks:
-    - effector: 0
-      weight: 1
-    - effector: 1
-      weight: 0.5
-    - effector: 2
-      weight: 0.5
-  rotationOffset: {x: 0, y: 0, z: 0, w: 1}
 --- !u!114 &5483930475857463452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6306,7 +6229,6 @@ MonoBehaviour:
   _playerControllerHeadX: {fileID: 5483930474790506710}
   _puppetMasterHeadX: {fileID: 694612502719047368}
   _hitReaction: {fileID: 1962169577}
-  _colliderToDelAfter: {fileID: 6929798512062912168}
 --- !u!114 &1962169591
 MonoBehaviour:
   m_ObjectHideFlags: 0

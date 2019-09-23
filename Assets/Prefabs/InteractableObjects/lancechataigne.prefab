@@ -84,7 +84,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179260450456667417}
   m_LocalRotation: {x: 0.21047254, y: -0.103333436, z: 0.65142375, w: 0.72157514}
-  m_LocalPosition: {x: 0.00806, y: -0.007, z: 0.00137}
+  m_LocalPosition: {x: 0.00806, y: -0.0078, z: 0.0004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6135916926865172324}
@@ -121,7 +121,7 @@ Transform:
   m_GameObject: {fileID: 7168743484013942135}
   m_LocalRotation: {x: 0, y: 0.7072302, z: 0.7069834, w: 0}
   m_LocalPosition: {x: 154.1, y: -0.32, z: 1.91}
-  m_LocalScale: {x: 130.02426, y: 130.02417, z: 130.02417}
+  m_LocalScale: {x: 130.02438, y: 130.0242, z: 130.0242}
   m_Children:
   - {fileID: 1179260450456667416}
   - {fileID: 1179260449926730466}
@@ -162,7 +162,6 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
