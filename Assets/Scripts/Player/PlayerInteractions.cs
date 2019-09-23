@@ -174,10 +174,6 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
         _handsWeight = 1.0f;
 
-        //Weight things with the rigid body
-        PlayerController.Instance.ChangePlayerRigidBodyMass(_currentInteractableObjectCarried.GetComponent<Rigidbody>().mass);
-        if (PlayerController.Instance._pressurePlatform)
-            PlayerController.Instance._pressurePlatform.ChangeCurrentWeight(_currentInteractableObjectCarried.GetComponent<Rigidbody>().mass);
     }
     public void ReleaseObject()
     {
@@ -278,6 +274,11 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
             yield return null;
         }
+
+        //Weight things with the rigid body
+        PlayerController.Instance.ChangePlayerRigidBodyMass(_currentInteractableObjectCarried.GetComponent<Rigidbody>().mass);
+        if (PlayerController.Instance._pressurePlatform)
+            PlayerController.Instance._pressurePlatform.ChangeCurrentWeight(_currentInteractableObjectCarried.GetComponent<Rigidbody>().mass);
 
         _playerController.SetCanMove(true);
         _isProcessing = false;
