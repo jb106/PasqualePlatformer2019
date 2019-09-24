@@ -25,8 +25,6 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
     [Header("Global statistics")]
     public GlobalFloat playerHealth = null;
     [Header("Various references")]
-    [SerializeField] private Transform _playerControllerHeadX = null;
-    [SerializeField] private Transform _puppetMasterHeadX = null;
     [SerializeField] private HitReaction _hitReaction = null;
 
     //Getters
@@ -73,7 +71,7 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
         PlayerController.Instance.SetCanMove(false);
         PlayerInteractions.Instance.SetPlayerCanInteract(false);
 
-        PlayerController.Instance.GetPlayerVirtualCamera().Follow = _puppetMasterHeadX;
+        PlayerCamera.Instance.SetDeadCamera();
 
         PlayerController.Instance.GetPuppetMaster().state = RootMotion.Dynamics.PuppetMaster.State.Dead;
         PlayerController.Instance.GetPuppetMaster().mappingWeight = 1.0f;
@@ -97,7 +95,7 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
 
         PlayerController.Instance.ForcePlayerDirection(false);
 
-        PlayerController.Instance.GetPlayerVirtualCamera().Follow = _playerControllerHeadX;
+        PlayerCamera.Instance.SetAliveCamera();
 
         PlayerController.Instance.GetPuppetMaster().state = RootMotion.Dynamics.PuppetMaster.State.Alive;
         PlayerController.Instance.GetPuppetMaster().mappingWeight = 0.0f;

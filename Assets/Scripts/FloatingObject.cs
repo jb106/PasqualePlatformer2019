@@ -57,6 +57,8 @@ public class FloatingObject : MonoBehaviour
 
             float addedForce = upForceMultiplicator >= 0.5f ? 2f : 1.0f;
 
+            addedForce = addedForce * _rigid.mass;
+
             _rigid.AddForce(Vector3.up * -Physics.gravity.y * addedForce);
         }
     }

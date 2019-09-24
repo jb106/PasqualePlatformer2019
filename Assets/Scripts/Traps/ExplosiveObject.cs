@@ -5,6 +5,7 @@ using UnityEngine;
 public class ExplosiveObject : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private LayerMask _mask;
     [SerializeField] private GameObject _explosionPrefab;
 
 
@@ -12,14 +13,18 @@ public class ExplosiveObject : MonoBehaviour
     {
         if (collider.gameObject != transform.parent.gameObject)
         {
-            GameObject explosion = Instantiate(_explosionPrefab);
-            explosion.transform.position = transform.position;
 
-            if(transform.parent.gameObject.GetComponent<InteractableObject>())
+            if (_mask == (_mask | (1 << collider.gameObject.layer)))
             {
-                transform.parent.gameObject.GetComponent<InteractableObject>().DestroyInteractableObject();
+                print(collider.gameObject.layer);
+                GameObject explosion = Instantiate(_explosionPrefab);
+                explosion.transform.position = transform.position;
+
+                if (transform.parent.gameObject.GetComponent<InteractableObject>())
+                {
+                    transform.parent.gameObject.GetComponent<InteractableObject>().DestroyInteractableObject();
+                }
             }
         }
-        
     }
 }
