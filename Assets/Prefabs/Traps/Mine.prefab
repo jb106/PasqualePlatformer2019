@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8368705408776503622}
   - component: {fileID: 4895837977417257866}
   - component: {fileID: 1582793833939506775}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Circle.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 4895837977551704632}
   - component: {fileID: 4895837977551704633}
   - component: {fileID: 1796164057}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3724779821175899457}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: handle1
   m_TagString: Untagged
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
@@ -277,7 +277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4669798053087218531}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: handle2
   m_TagString: Untagged
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}

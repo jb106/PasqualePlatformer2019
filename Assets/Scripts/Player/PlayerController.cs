@@ -74,6 +74,8 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     private LeftRight _playerFacingDirection = LeftRight.Right;
     private InputMaster _inputMaster = null;
 
+    private float _defaultMass = 0;
+
 
 
     //Getter for certain private variables
@@ -133,7 +135,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
     private void Start()
     {
-        
+        _defaultMass = _rigid.mass;
     }
    
 
@@ -463,6 +465,11 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     public void ChangePlayerRigidBodyMass(float value)
     {
         _rigid.mass += value;
+    }
+
+    public void ResetPlayerRigidBodyMass()
+    {
+        _rigid.mass = _defaultMass;
     }
 
     //Getters

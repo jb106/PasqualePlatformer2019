@@ -13,6 +13,9 @@ public class InteractableObject : MonoBehaviour
 
     [Header("Settings")]
     public Vector3 rotationOffset = new Vector3();
+
+    [Header("SAVE SETTING")]
+    [SerializeField] private bool _saveHandsPosition = false;
    
     [Header("References")]
     public InteractableObjectData interactableObjectData;
@@ -91,8 +94,8 @@ public class InteractableObject : MonoBehaviour
 
     private void SaveHandlesToData()
     {
-
-        return;
+        if(!_saveHandsPosition)
+            return;
 
         interactableObjectData.leftHandleDefaultRotation = GetLeftHandle().localRotation.eulerAngles;
         interactableObjectData.rightHandleDefaultRotation = GetRightHandle().localRotation.eulerAngles;
@@ -116,11 +119,10 @@ public class InteractableObject : MonoBehaviour
 
         if (thisIsCarried)
         {
-            PlayerInteractions.Instance.ReleaseObject();
             PlayerInteractions.Instance.ForceStopGrabCoroutineAndRelease();
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
 }

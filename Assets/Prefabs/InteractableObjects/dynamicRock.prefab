@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9046947635160302245}
   - component: {fileID: 9046947635160302298}
   - component: {fileID: 309673087}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: dynamicRock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9046947634478527877}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: handle1 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9046947635128985662}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: handle1
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}

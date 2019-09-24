@@ -11,24 +11,22 @@ public class PlayerSpawn : MonoBehaviour
     }
 
     [Header("Settings")]
-    [SerializeField] private float ToDelete;
+    [SerializeField] private float _delayToRevive;
 
     private Vector3 _defaultPosition;
 
     //Getters
     public Vector3 GetPlayerDefaultPosition() { return _defaultPosition; }
+    public float GetDelayToRevive() { return _delayToRevive; }
 
     private void Start()
     {
         _defaultPosition = transform.position;
     }
 
-    public void TeleportPlayerAtDefaultPosition(bool teleportPuppetMaster = false)
+    public void TeleportPlayerAtDefaultPosition()
     {
         transform.position = _defaultPosition;
-
-        if (teleportPuppetMaster)
-            PlayerController.Instance.GetPuppetMaster().transform.position = _defaultPosition;
     }
 
 }

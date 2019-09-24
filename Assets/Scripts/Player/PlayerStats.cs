@@ -32,6 +32,8 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
     //Getters
     public HitReaction GetHitReaction() { return _hitReaction; }
 
+    private float _timerSinceDead = 0.0f;
+
 
     void OnEnable()
     {
@@ -51,7 +53,6 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
 
     public void TakeDamage(float damage)
     {
-        print("damaouuuu");
         //Verification to kill or just substract health from the player
         if (playerHealth.RuntimeValue - damage <= 0.0f)
         {
@@ -76,12 +77,20 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
 
         PlayerController.Instance.GetPuppetMaster().state = RootMotion.Dynamics.PuppetMaster.State.Dead;
         PlayerController.Instance.GetPuppetMaster().mappingWeight = 1.0f;
+
+
+        _timerSinceDead = 0.0f;
     }
 
     public void Revive()
     {
+        if (_timerSinceDead <= PlayerSpawn.Instance.GetDelayToRevive())
+            return;
+
         if (playerStatsPhase == PlayerStatsPhase.Alive)
             return;
+
+        PlayerController.Instance.ResetPlayerRigidBodyMass();
 
         PlayerController.Instance.SetCanMove(true);
         PlayerInteractions.Instance.SetPlayerCanInteract(true);
@@ -95,13 +104,12 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
 
         playerStatsPhase = PlayerStatsPhase.Alive;
 
-        PlayerSpawn.Instance.TeleportPlayerAtDefaultPosition(true);
+        PlayerSpawn.Instance.TeleportPlayerAtDefaultPosition();
     }
 
     private void Update()
     {
-        //Mess with all the updates for the current phase of the playerstats for example
-        if (Input.GetKeyDown(KeyCode.P))
-            Revive();
+        if (playerStatsPhase == PlayerStatsPhase.Dead)
+            _timerSinceDead += Time.fixedDeltaTime;
     }
 }

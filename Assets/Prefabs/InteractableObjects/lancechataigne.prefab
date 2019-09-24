@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1490461407}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: bulletSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1179260449926730466}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: handle2
   m_TagString: Untagged
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
@@ -69,7 +69,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1179260450456667416}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: handle1
   m_TagString: Untagged
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 1179260451620605049}
   - component: {fileID: 1179260451620605051}
   - component: {fileID: 1134611806}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lancechataigne
   m_TagString: Untagged
   m_Icon: {fileID: 0}

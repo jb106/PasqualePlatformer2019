@@ -36,7 +36,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
     //This boolean is useful when we have delays on grabing objects so if the thing is processing something we can't react to player input
     private bool _isProcessing = false;
 
-    private Vector3 _bodyOffsetPosition = new Vector3();
+    [SerializeField] private Vector3 _bodyOffsetPosition = new Vector3();
     private float _handsWeight = 0.0f;
     private float _handLerpValue = 0.0f;
     private InputMaster _inputMaster = null;
@@ -321,7 +321,13 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
     public void ForceStopGrabCoroutineAndRelease()
     {
+        if (grabRoutine == null)
+            return;
+
         StopCoroutine(grabRoutine);
+        grabRoutine = null;
+
+        _bodyOffsetPosition = Vector3.zero;
 
         ReleaseObject();
         _handsWeight = 0.0f;
