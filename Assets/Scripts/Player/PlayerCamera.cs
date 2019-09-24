@@ -27,7 +27,7 @@ public class PlayerCamera : MonoBehaviour
 
     public void SetDeadCamera()
     {
-        _deadCamera.SetActive(false);
-        _aliveCamera.SetActive(true);
+        _deadCamera.SetActive(true);
+        _aliveCamera.SetActive(false);
     }
 }

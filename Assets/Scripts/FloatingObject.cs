@@ -5,6 +5,7 @@ using UnityEngine;
 public class FloatingObject : MonoBehaviour
 {
     public GameObject splashPrefab = null;
+    public Vector3 waterLevelOffset = new Vector3();
 
     private bool _isInWater = false;
     private GameObject _currentWater = null;
@@ -53,7 +54,7 @@ public class FloatingObject : MonoBehaviour
     {
         if(_isInWater)
         {
-            float upForceMultiplicator = _currentWater.transform.GetChild(0).position.y - transform.position.y;
+            float upForceMultiplicator = (_currentWater.transform.GetChild(0).position.y + waterLevelOffset.y) - transform.position.y;
 
             float addedForce = upForceMultiplicator >= 0.5f ? 2f : 1.0f;
 
