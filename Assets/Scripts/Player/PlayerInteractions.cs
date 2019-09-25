@@ -222,11 +222,40 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
         while (true)
         {
             _interactableTarget = null;
-            foreach( InteractableObject obj in GameManager.Instance.GetInteractableObjects())
+            List<InteractableObject> _nearestObjects = new List<InteractableObject>();
+
+            foreach ( InteractableObject obj in GameManager.Instance.GetInteractableObjects())
             {
                 if (obj.distanceToPlayer <= _distanceToInteract && obj.playerSide != PlayerController.Instance.GetPlayerFacingDirection())
-                    _interactableTarget = obj.gameObject;
+                    _nearestObjects.Add(obj);
             }
+
+            float nearestDistance = -1f;
+            InteractableObject nearestObject = null;
+
+            foreach (InteractableObject obj in _nearestObjects)
+            {
+                if(nearestDistance == -1f)
+                {
+                    nearestObject = obj;
+                    nearestDistance = Vector3.Distance(transform.position, obj.transform.position);
+                }
+                else
+                {
+                    float newDistance = Vector3.Distance(transform.position, obj.transform.position);
+
+                    if(newDistance < nearestDistance)
+                    {
+                        nearestObject = obj;
+                        nearestDistance = newDistance;
+                    }
+                }
+            }
+
+            if (nearestObject)
+                _interactableTarget = nearestObject.gameObject;
+            else
+                _interactableTarget = null;
 
             //HUD PART BELOW
             //----------------
