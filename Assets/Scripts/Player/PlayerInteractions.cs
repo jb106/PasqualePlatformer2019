@@ -227,7 +227,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
             foreach ( InteractableObject obj in GameManager.Instance.GetInteractableObjects())
             {
-                if (obj.distanceToPlayer <= _distanceToInteract && obj.playerSide != PlayerController.Instance.GetPlayerFacingDirection())
+                if (obj.distanceToPlayer <= _distanceToInteract && obj.playerSide != PlayerController.Instance.GetPlayerFacingDirection() && obj.canBeCarried)
                     _nearestObjects.Add(obj);
             }
 

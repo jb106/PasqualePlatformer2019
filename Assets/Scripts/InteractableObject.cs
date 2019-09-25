@@ -13,6 +13,7 @@ public class InteractableObject : MonoBehaviour
 
     [Header("Settings")]
     public Vector3 rotationOffset = new Vector3();
+    public bool canBeCarried = true;
 
     [Header("SAVE SETTING")]
     [SerializeField] private bool _saveHandsPosition = false;
