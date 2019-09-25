@@ -81,7 +81,6 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
         PlayerController.Instance.GetPuppetMaster().state = RootMotion.Dynamics.PuppetMaster.State.Dead;
         PlayerController.Instance.GetPuppetMaster().mappingWeight = 1.0f;
 
-
         _timerSinceDead = 0.0f;
     }
 
@@ -111,12 +110,19 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
 
         playerHealth.RuntimeValue = playerHealth.GetMaxValue();
         UpdateHealthBarUI();
+
+        PlayerInteractions.Instance.startButton.GetComponent<Animator>().SetBool("pop", false);
     }
 
     private void Update()
     {
         if (playerStatsPhase == PlayerStatsPhase.Dead)
+        {
             _timerSinceDead += Time.fixedDeltaTime;
+
+            if(_timerSinceDead >= PlayerSpawn.Instance.GetDelayToRevive())
+                PlayerInteractions.Instance.startButton.GetComponent<Animator>().SetBool("pop", true);
+        }
     }
 
     private void UpdateHealthBarUI()

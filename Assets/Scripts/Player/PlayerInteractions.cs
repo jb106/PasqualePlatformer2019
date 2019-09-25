@@ -28,6 +28,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
     [Header("HUD related References")]
     [SerializeField] private Canvas _mainHudCanvas = null;
     [SerializeField] private GameObject _yButton = null;
+    [SerializeField] public GameObject startButton = null;
     [SerializeField] private GameObject _healthBarParent = null;
     [SerializeField] private Transform _playerHead = null;
 
@@ -283,7 +284,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
             if(_interactableTarget)
             {
-                if(_isCaryingSomething)
+                if(_isCaryingSomething || PlayerStats.Instance.playerStatsPhase == PlayerStatsPhase.Dead)
                     _yButton.GetComponent<Animator>().SetBool("pop", false);
                 else
                     _yButton.GetComponent<Animator>().SetBool("pop", true);

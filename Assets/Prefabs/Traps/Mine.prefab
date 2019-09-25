@@ -93,7 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mask:
     serializedVersion: 2
-    m_Bits: 2561
+    m_Bits: 3585
   _explosionPrefab: {fileID: 2452406419183009628, guid: fadd81cad54e2b74391d10fd74e5582a,
     type: 3}
 --- !u!65 &1582793833939506775
@@ -257,6 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splashPrefab: {fileID: 1000014033464604, guid: 8690dc1830d17654e977c7f07accf0ab,
     type: 3}
+  waterLevelOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &4783662257334038839
 GameObject:
   m_ObjectHideFlags: 0
