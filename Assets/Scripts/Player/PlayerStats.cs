@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using RootMotion.FinalIK;
+using UnityEngine.UI;
 
 public enum PlayerStatsPhase { Alive, Dead}
 
@@ -26,6 +27,8 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
     public GlobalFloat playerHealth = null;
     [Header("Various references")]
     [SerializeField] private HitReaction _hitReaction = null;
+    [SerializeField] private Image _healthBar = null;
+
 
     //Getters
     public HitReaction GetHitReaction() { return _hitReaction; }
@@ -59,6 +62,8 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
         }
         else
             playerHealth.RuntimeValue -= damage;
+
+        UpdateHealthBarUI();
     }
 
     public void Kill()
@@ -103,11 +108,19 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
         playerStatsPhase = PlayerStatsPhase.Alive;
 
         PlayerSpawn.Instance.TeleportPlayerAtDefaultPosition();
+
+        playerHealth.RuntimeValue = playerHealth.GetMaxValue();
+        UpdateHealthBarUI();
     }
 
     private void Update()
     {
         if (playerStatsPhase == PlayerStatsPhase.Dead)
             _timerSinceDead += Time.fixedDeltaTime;
+    }
+
+    private void UpdateHealthBarUI()
+    {
+        _healthBar.fillAmount = playerHealth.RuntimeValue / playerHealth.GetMaxValue();
     }
 }

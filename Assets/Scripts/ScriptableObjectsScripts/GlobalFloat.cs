@@ -8,6 +8,8 @@ public class GlobalFloat : ScriptableObject, ISerializationCallbackReceiver
     public float InitialValue;
     public float RuntimeValue;
 
+    public float GetMaxValue() { return InitialValue; }
+
     private void Awake()
     {
         RuntimeValue = InitialValue;

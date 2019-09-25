@@ -23,10 +23,13 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
 
     [Header("HUD related Settings")]
     [SerializeField] private Vector3 _interactableObjectButtonOffset = new Vector3();
+    [SerializeField] private Vector3 _healthBarOffset = new Vector3();
 
     [Header("HUD related References")]
     [SerializeField] private Canvas _mainHudCanvas = null;
     [SerializeField] private GameObject _yButton = null;
+    [SerializeField] private GameObject _healthBarParent = null;
+    [SerializeField] private Transform _playerHead = null;
 
 
     [SerializeField] private GameObject _interactableTarget = null;
@@ -225,6 +228,30 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
                     _interactableTarget = obj.gameObject;
             }
 
+            //HUD PART BELOW
+            //----------------
+            //--------------------------------
+
+
+            //Set healthBar near the player head
+            SetCanvasElementOnTarget(_healthBarParent, _playerHead, _healthBarOffset, true, 15f);
+
+            if (PlayerStats.Instance.playerStatsPhase == PlayerStatsPhase.Alive)
+            {
+                if (_healthBarParent.activeSelf == false)
+                {
+                    _healthBarParent.SetActive(true);
+                }
+            }
+            else if (PlayerStats.Instance.playerStatsPhase == PlayerStatsPhase.Dead)
+            {
+                if (_healthBarParent.activeSelf == true)
+                {
+                    _healthBarParent.SetActive(false);
+                }
+            }
+
+
             if(_interactableTarget)
             {
                 if(_isCaryingSomething)
@@ -233,7 +260,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
                     _yButton.GetComponent<Animator>().SetBool("pop", true);
                 
 
-                SetCanvasButtonOnTarget(_yButton, _interactableTarget.transform, _interactableObjectButtonOffset);
+                SetCanvasElementOnTarget(_yButton, _interactableTarget.transform, _interactableObjectButtonOffset);
             }
             else
             {
@@ -244,7 +271,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
         }
     }
 
-    void SetCanvasButtonOnTarget(GameObject button, Transform target, Vector3 offset)
+    void SetCanvasElementOnTarget(GameObject element, Transform target, Vector3 offset, bool lerp = false, float lerpSpeed = 0.0f)
     {
         RectTransform CanvasRect = _mainHudCanvas.GetComponent<RectTransform>();
 
@@ -253,7 +280,10 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
         ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
         ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
 
-        button.GetComponent<RectTransform>().anchoredPosition = WorldObject_ScreenPosition;
+        if (lerp)
+            element.GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(element.GetComponent<RectTransform>().anchoredPosition, WorldObject_ScreenPosition, Time.deltaTime * lerpSpeed);
+        else
+            element.GetComponent<RectTransform>().anchoredPosition = WorldObject_ScreenPosition;
     }
 
 
