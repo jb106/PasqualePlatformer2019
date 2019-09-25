@@ -73,8 +73,8 @@ GameObject:
   - component: {fileID: 1218099262908652753}
   - component: {fileID: 1218099262908652757}
   - component: {fileID: 1218099262908652754}
-  - component: {fileID: 70887919}
   - component: {fileID: 8515940596258977232}
+  - component: {fileID: 6186988317664998787}
   m_Layer: 11
   m_Name: Rondin
   m_TagString: Untagged
@@ -180,20 +180,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 8
   m_CollisionDetection: 0
---- !u!136 &70887919
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218099262908652751}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.50000024
-  m_Height: 2.0000005
-  m_Direction: 1
-  m_Center: {x: 0.00000005960464, y: 0, z: -0.00000008940699}
 --- !u!114 &8515940596258977232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,3 +195,16 @@ MonoBehaviour:
   splashPrefab: {fileID: 1000014033464604, guid: 8690dc1830d17654e977c7f07accf0ab,
     type: 3}
   waterLevelOffset: {x: 0, y: 0, z: 0}
+--- !u!65 &6186988317664998787
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218099262908652751}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.0000005, z: 1.0000005}
+  m_Center: {x: 0.00000005960464, y: 0, z: -0.00000008940699}
