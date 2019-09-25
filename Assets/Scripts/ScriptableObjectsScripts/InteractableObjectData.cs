@@ -18,6 +18,20 @@ public class InteractableObjectData : ScriptableObject
     public float fireRate = 0.0f;
     public float bulletSpeed = 2000.0f;
     public int bulletsNumber = 1;
+    [SerializeField] private int _ammo = 1;
+    [SerializeField] private int _currentAmmo;
 
     public GameObject bulletPrefab;
+
+
+    private void OnEnable()
+    {
+        _currentAmmo = _ammo;
+    }
+
+    public int ammo
+    {
+        get { return _currentAmmo; }
+        set { _currentAmmo = value; }
+    }
 }

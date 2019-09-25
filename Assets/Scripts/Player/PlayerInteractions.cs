@@ -301,7 +301,7 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
         }
     }
 
-    void SetCanvasElementOnTarget(GameObject element, Transform target, Vector3 offset, bool lerp = false, float lerpSpeed = 0.0f)
+    public void SetCanvasElementOnTarget(GameObject element, Transform target, Vector3 offset, bool lerp = false, float lerpSpeed = 0.0f)
     {
         RectTransform CanvasRect = _mainHudCanvas.GetComponent<RectTransform>();
 

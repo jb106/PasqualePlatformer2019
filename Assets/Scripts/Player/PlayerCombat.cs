@@ -3,9 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerCombat : MonoBehaviour, InputMaster.IPlayerCombatActions
 {
+    [Header("HUD related References")]
+    [SerializeField] private GameObject _ammoHudParent = null;
+    [SerializeField] private TextMeshProUGUI _ammoText = null;
+    [SerializeField] private Transform _weaponHolder = null;
+    [SerializeField] private Vector3 _ammoOffset = new Vector3();
+
     //Private reference to Player Components (assigned in the start function from the GameManager)
     private PlayerController _playerController = null;
     private PlayerInteractions _playerInteractions = null;
@@ -63,6 +71,24 @@ public class PlayerCombat : MonoBehaviour, InputMaster.IPlayerCombatActions
             //Always increment the fire timer, it is used to get the fire rate of each weapon
             _currentFireTimer += Time.deltaTime;
 
+            if(_playerInteractions.CheckIfPlayerIsCarryingSomething())
+            {
+                if(GetInteractableObject().interactableObjectData.interactableObjectType == InteractableObjectType.Weapon)
+                {
+                    _ammoHudParent.SetActive(true);
+
+                    _playerInteractions.SetCanvasElementOnTarget(_ammoHudParent, _weaponHolder, _ammoOffset, true, 25f);
+                }
+                else
+                {
+                    _ammoHudParent.SetActive(false);
+                }
+            }
+            else
+            {
+                _ammoHudParent.SetActive(false);
+            }
+
             yield return null;
         }
     }
@@ -77,28 +103,33 @@ public class PlayerCombat : MonoBehaviour, InputMaster.IPlayerCombatActions
             {
                 if (_currentFireTimer >= GetInteractableObject().interactableObjectData.fireRate)
                 {
-                    _playerInteractions._carryingObjectAnimator.SetTrigger("fire");
-
-                    //For multiple bullet firing
-                    int bulletIndex = 0;
-
-                    while (bulletIndex < GetInteractableObject().interactableObjectData.bulletsNumber)
+                    if (GetInteractableObject().interactableObjectData.ammo > 0)
                     {
-                        GameObject newBullet = Instantiate(GetInteractableObject().interactableObjectData.bulletPrefab);
-                        newBullet.transform.position = GetInteractableObject().bulletSpawner.position;
-                        newBullet.transform.rotation = GetInteractableObject().bulletSpawner.rotation;
+                        _playerInteractions._carryingObjectAnimator.SetTrigger("fire");
 
-                        //Assign a random scale to the projectile
-                        float randomScaleValue = Random.Range(-5f, 15f);
-                        newBullet.transform.localScale = new Vector3(newBullet.transform.localScale.x + randomScaleValue, newBullet.transform.localScale.y + randomScaleValue, newBullet.transform.localScale.z + randomScaleValue);
+                        //For multiple bullet firing
+                        int bulletIndex = 0;
 
-                        newBullet.GetComponent<Rigidbody>().AddForce(GetInteractableObject().bulletSpawner.forward * GetInteractableObject().interactableObjectData.bulletSpeed);
+                        while (bulletIndex < GetInteractableObject().interactableObjectData.bulletsNumber)
+                        {
+                            GameObject newBullet = Instantiate(GetInteractableObject().interactableObjectData.bulletPrefab);
+                            newBullet.transform.position = GetInteractableObject().bulletSpawner.position;
+                            newBullet.transform.rotation = GetInteractableObject().bulletSpawner.rotation;
 
-                        bulletIndex++;
+                            //Assign a random scale to the projectile
+                            float randomScaleValue = Random.Range(-5f, 15f);
+                            newBullet.transform.localScale = new Vector3(newBullet.transform.localScale.x + randomScaleValue, newBullet.transform.localScale.y + randomScaleValue, newBullet.transform.localScale.z + randomScaleValue);
+
+                            newBullet.GetComponent<Rigidbody>().AddForce(GetInteractableObject().bulletSpawner.forward * GetInteractableObject().interactableObjectData.bulletSpeed);
+
+                            bulletIndex++;
+                        }
+
+                        //Reset the timer for the next shoot
+                        _currentFireTimer = 0.0f;
+                        GetInteractableObject().interactableObjectData.ammo -= 1;
+                        _ammoText.text = GetInteractableObject().interactableObjectData.ammo.ToString();
                     }
-
-                    //Reset the timer for the next shoot
-                    _currentFireTimer = 0.0f;
                 }
             }
 
