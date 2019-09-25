@@ -21,6 +21,13 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
     [SerializeField] private Transform _carryingObjectPosition;
     public Animator _carryingObjectAnimator;
 
+    [Header("HUD related Settings")]
+    [SerializeField] private Vector3 _interactableObjectButtonOffset = new Vector3();
+
+    [Header("HUD related References")]
+    [SerializeField] private Canvas _mainHudCanvas = null;
+    [SerializeField] private GameObject _yButton = null;
+
 
     [SerializeField] private GameObject _interactableTarget = null;
     [SerializeField] private GameObject _currentInteractableObjectCarried = null;
@@ -214,12 +221,39 @@ public class PlayerInteractions : MonoBehaviour, InputMaster.IPlayerInteractionA
             _interactableTarget = null;
             foreach( InteractableObject obj in GameManager.Instance.GetInteractableObjects())
             {
-                if (obj.distanceToPlayer <= _distanceToInteract)
+                if (obj.distanceToPlayer <= _distanceToInteract && obj.playerSide != PlayerController.Instance.GetPlayerFacingDirection())
                     _interactableTarget = obj.gameObject;
+            }
+
+            if(_interactableTarget)
+            {
+                if(_isCaryingSomething)
+                    _yButton.GetComponent<Animator>().SetBool("pop", false);
+                else
+                    _yButton.GetComponent<Animator>().SetBool("pop", true);
+                
+
+                SetCanvasButtonOnTarget(_yButton, _interactableTarget.transform, _interactableObjectButtonOffset);
+            }
+            else
+            {
+                _yButton.GetComponent<Animator>().SetBool("pop", false);
             }
 
             yield return null;
         }
+    }
+
+    void SetCanvasButtonOnTarget(GameObject button, Transform target, Vector3 offset)
+    {
+        RectTransform CanvasRect = _mainHudCanvas.GetComponent<RectTransform>();
+
+        Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(target.position + offset);
+        Vector2 WorldObject_ScreenPosition = new Vector2(
+        ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
+        ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
+
+        button.GetComponent<RectTransform>().anchoredPosition = WorldObject_ScreenPosition;
     }
 
 
