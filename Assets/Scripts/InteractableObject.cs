@@ -100,6 +100,8 @@ public class InteractableObject : MonoBehaviour
         if(!_saveHandsPosition)
             return;
 
+        print("saaaave");
+
         interactableObjectData.leftHandleDefaultRotation = GetLeftHandle().localRotation.eulerAngles;
         interactableObjectData.rightHandleDefaultRotation = GetRightHandle().localRotation.eulerAngles;
 

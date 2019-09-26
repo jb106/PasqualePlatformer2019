@@ -239,10 +239,12 @@ MonoBehaviour:
   playerSide: 0
   thisIsCarried: 0
   rotationOffset: {x: 0, y: 0, z: 0}
+  canBeCarried: 1
   _saveHandsPosition: 0
   interactableObjectData: {fileID: 11400000, guid: 66578316403d7e74d9504882b308d681,
     type: 2}
   bulletSpawner: {fileID: 0}
+  pressurePlatform: {fileID: 0}
 --- !u!114 &5890073666290470196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +260,7 @@ MonoBehaviour:
   splashPrefab: {fileID: 1000014033464604, guid: 8690dc1830d17654e977c7f07accf0ab,
     type: 3}
   waterLevelOffset: {x: 0, y: 0, z: 0}
+  emitSplash: 1
 --- !u!1 &4783662257334038839
 GameObject:
   m_ObjectHideFlags: 0
