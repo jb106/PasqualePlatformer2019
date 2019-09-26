@@ -22,6 +22,8 @@ public class InteractableObject : MonoBehaviour
     public InteractableObjectData interactableObjectData;
     public Transform bulletSpawner = null;
 
+    public PressurePlatform pressurePlatform = null;
+
     //Private variables...
     private List<Transform> handles = new List<Transform>();
     private Quaternion _defaultRotation = Quaternion.identity;
@@ -121,6 +123,11 @@ public class InteractableObject : MonoBehaviour
         if (thisIsCarried)
         {
             PlayerInteractions.Instance.ForceStopGrabCoroutineAndRelease();
+        }
+
+        if(pressurePlatform)
+        {
+            pressurePlatform.RemoveRigid(GetComponent<Collider>());
         }
 
         gameObject.SetActive(false);

@@ -74,6 +74,8 @@ public class PressurePlatform : MonoBehaviour
 
             if (rb.gameObject.name == "PlayerController")
                 PlayerController.Instance._pressurePlatform = this;
+            else if (rb.gameObject.GetComponent<InteractableObject>())
+                rb.gameObject.GetComponent<InteractableObject>().pressurePlatform = this;
         }
     }
 
@@ -89,6 +91,8 @@ public class PressurePlatform : MonoBehaviour
 
             if (rb.gameObject.name == "PlayerController")
                 PlayerController.Instance._pressurePlatform = null;
+            else if (rb.gameObject.GetComponent<InteractableObject>())
+                rb.gameObject.GetComponent<InteractableObject>().pressurePlatform = null;
         }
     }
 

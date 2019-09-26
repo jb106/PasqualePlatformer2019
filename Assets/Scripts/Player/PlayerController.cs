@@ -60,7 +60,6 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     private bool _previouslyGrounded = false;
     private float _fallingDistanceBase = 0.0f;
     private float _fallingTimer = 0.0f;
-    private bool _skipLandingAnimation = false;
 
     private float _timerFacingDirection = 0.0f;
 
@@ -71,10 +70,12 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
 
     private bool _canMove = true;
 
-    private LeftRight _playerFacingDirection = LeftRight.Right;
+    [SerializeField] private LeftRight _playerFacingDirection = LeftRight.Right;
     private InputMaster _inputMaster = null;
 
     private float _defaultMass = 0;
+
+    private bool _ragdollEmitSplash = true;
 
 
 
@@ -155,14 +156,8 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
             if (_fallingDistanceBase > transform.position.y)
             {
                 float fallingDistance = _fallingDistanceBase - transform.position.y;
-                _skipLandingAnimation = false;
             }
-            else
-            {
-                _skipLandingAnimation = true;
-                if (_playerAnimation.GetCurrentAnimatorStateInfo(0).IsName("Paoli_jump_middle"))
-                    _playerAnimation.SetTrigger("skip_jump_end");
-            }
+
         }
 
 
@@ -421,8 +416,7 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         {
             if (_playerAnimation.GetCurrentAnimatorStateInfo(0).IsName("Paoli_jump_middle"))
             {
-                if(!_skipLandingAnimation)
-                    _playerAnimation.Play("Paoli_jump_end");
+                _playerAnimation.Play("Paoli_jump_end");
 
                 if (_jumpInProgress)
                     _jumpInProgress = false;
@@ -456,9 +450,16 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
     public void ForcePlayerDirection(bool left)
     {
         if (left)
+        {
             _playerDirection = 270;
+            _playerFacingDirection = LeftRight.Left;
+        }
         else
+        {
             _playerDirection = 90;
+            _playerFacingDirection = LeftRight.Right;
+        }
+
     }
 
 
@@ -472,10 +473,31 @@ public class PlayerController : MonoBehaviour, InputMaster.IPlayerMovementAction
         _rigid.mass = _defaultMass;
     }
 
+    public void SetRagdollEmitSplash(bool active)
+    {
+        foreach(Muscle m in _puppetMaster.muscles)
+        {
+
+            if(m.transform.GetComponent<FloatingObject>())
+            {
+                m.transform.GetComponent<FloatingObject>().emitSplash = active;
+            }
+        }
+
+        _ragdollEmitSplash = active;
+    }
+
     //Getters
     public Vector3 GetMoveDirection()
     {
         return _moveDirection;
     }
+
+    public bool GetRagdollEmitSplash()
+    {
+        return _ragdollEmitSplash;
+    }
+
+
 
 }

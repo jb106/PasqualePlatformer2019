@@ -6,6 +6,7 @@ public class FloatingObject : MonoBehaviour
 {
     public GameObject splashPrefab = null;
     public Vector3 waterLevelOffset = new Vector3();
+    [HideInInspector] public bool emitSplash = true;
 
     private bool _isInWater = false;
     private GameObject _currentWater = null;
@@ -30,8 +31,11 @@ public class FloatingObject : MonoBehaviour
                 //Do it only if the magnitude (speed) of the object is above 10
                 if (_rigid.velocity.magnitude >= 10.0f)
                 {
-                    GameObject newSplash = Instantiate(splashPrefab);
-                    newSplash.transform.position = new Vector3(transform.position.x, _currentWater.transform.GetChild(0).position.y, transform.position.z);
+                    if (emitSplash)
+                    {
+                        GameObject newSplash = Instantiate(splashPrefab);
+                        newSplash.transform.position = new Vector3(transform.position.x, _currentWater.transform.GetChild(0).position.y, transform.position.z);
+                    }
                 }
             }
 

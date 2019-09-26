@@ -34,6 +34,7 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
     public HitReaction GetHitReaction() { return _hitReaction; }
 
     private float _timerSinceDead = 0.0f;
+    private float _timerSinceRevive = 0.0f;
 
 
     void OnEnable()
@@ -92,6 +93,8 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
         if (playerStatsPhase == PlayerStatsPhase.Alive)
             return;
 
+        PlayerController.Instance.SetRagdollEmitSplash(false);
+
         PlayerController.Instance.ResetPlayerRigidBodyMass();
 
         PlayerController.Instance.SetCanMove(true);
@@ -112,16 +115,26 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
         UpdateHealthBarUI();
 
         PlayerInteractions.Instance.startButton.GetComponent<Animator>().SetBool("pop", false);
+
+        _timerSinceRevive = 0.0f;
     }
 
     private void Update()
     {
         if (playerStatsPhase == PlayerStatsPhase.Dead)
         {
-            _timerSinceDead += Time.fixedDeltaTime;
+            _timerSinceDead += Time.deltaTime;
 
             if(_timerSinceDead >= PlayerSpawn.Instance.GetDelayToRevive())
                 PlayerInteractions.Instance.startButton.GetComponent<Animator>().SetBool("pop", true);
+        }
+        else if(playerStatsPhase == PlayerStatsPhase.Alive)
+        {
+            _timerSinceRevive += Time.deltaTime;
+
+            //Timer to reactivate splash short time after revive, because it was causing bugs with the ragdoll
+            if (_timerSinceRevive > 1f && PlayerController.Instance.GetRagdollEmitSplash() == false)
+                PlayerController.Instance.SetRagdollEmitSplash(true);
         }
     }
 

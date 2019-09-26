@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Rondin
   m_EditorClassIdentifier: 
   interactableObjectType: 0
-  leftHandleDefaultRotation: {x: 0, y: 0, z: 0}
-  rightHandleDefaultRotation: {x: 0, y: 0, z: 0}
-  leftHandleDefaultPosition: {x: 0, y: 0, z: 0}
+  leftHandleDefaultRotation: {x: 1, y: 0, z: 0}
+  rightHandleDefaultRotation: {x: 0, y: 2, z: 0}
+  leftHandleDefaultPosition: {x: 0, y: 0, z: 3}
   rightHandleDefaultPosition: {x: 0, y: 0, z: 0}
   fireRate: 0
   bulletSpeed: 2000
