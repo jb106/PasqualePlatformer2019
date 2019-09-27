@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9046947635160302245}
   - component: {fileID: 9046947635160302298}
   - component: {fileID: 309673087}
+  - component: {fileID: 5406122311298425745}
   m_Layer: 11
   m_Name: dynamicRock
   m_TagString: Untagged
@@ -134,6 +135,7 @@ MonoBehaviour:
   interactableObjectData: {fileID: 11400000, guid: 4bb8bedcbc566164fb5d2d7f6634a596,
     type: 2}
   bulletSpawner: {fileID: 0}
+  pressurePlatform: {fileID: 0}
 --- !u!114 &309673087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +151,22 @@ MonoBehaviour:
   splashPrefab: {fileID: 1000014033464604, guid: 8690dc1830d17654e977c7f07accf0ab,
     type: 3}
   waterLevelOffset: {x: 0, y: 0, z: 0}
+  emitSplash: 1
+--- !u!114 &5406122311298425745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2790311361468951455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e169bd57c43b244caaeaad18f57d3ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mask:
+    serializedVersion: 2
+    m_Bits: 16
 --- !u!1 &9046947634478527878
 GameObject:
   m_ObjectHideFlags: 0

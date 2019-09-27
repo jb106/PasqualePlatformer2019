@@ -37,6 +37,7 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
     private float _timerSinceRevive = 0.0f;
 
 
+
     void OnEnable()
     {
         _inputMaster.PlayerOtherControls.Enable();
@@ -49,7 +50,18 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
 
     public void OnRevive(InputAction.CallbackContext context)
     {
-        Revive();
+        if(GameManager.Instance.GetGameState() == GameState.Intro)
+        {
+            GameManager.Instance.StartGame();
+        }
+        else if (GameManager.Instance.GetGameState() == GameState.InGame)
+        {
+            Revive();
+        }
+        else if (GameManager.Instance.GetGameState() == GameState.End)
+        {
+            GameManager.Instance.RestartGame();
+        }
     }
 
 
@@ -78,6 +90,8 @@ public class PlayerStats : MonoBehaviour, InputMaster.IPlayerOtherControlsAction
         PlayerInteractions.Instance.SetPlayerCanInteract(false);
 
         PlayerCamera.Instance.SetDeadCamera();
+
+        GameManager.Instance.AddPlayerDeath();
 
         PlayerController.Instance.GetPuppetMaster().state = RootMotion.Dynamics.PuppetMaster.State.Dead;
         PlayerController.Instance.GetPuppetMaster().mappingWeight = 1.0f;

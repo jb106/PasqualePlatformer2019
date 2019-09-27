@@ -12,6 +12,9 @@ public class TriggerDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (_functionToCallOnEnter == "")
+            return;
+
         if (!other.gameObject.GetComponent<Rigidbody>())
             return;
 
@@ -23,6 +26,9 @@ public class TriggerDetection : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (_functionToCallOnExit == "")
+            return;
+
         if (!other.gameObject.GetComponent<Rigidbody>())
             return;
 

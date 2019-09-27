@@ -28,7 +28,7 @@ public class CollisionDamage : MonoBehaviour
         }
         else if (collision.gameObject.layer == 10) //Ragdoll tag
         {
-            PlayerStats.Instance.GetHitReaction().Hit(collision.collider, _rigid.velocity, collision.GetContact(0).point);
+            PlayerStats.Instance.GetHitReaction().Hit(collision.collider, _rigid.velocity * 2f, collision.GetContact(0).point);
         }
     }
 }

@@ -26,7 +26,15 @@ public class PlayerSpawn : MonoBehaviour
 
     public void TeleportPlayerAtDefaultPosition()
     {
-        transform.position = _defaultPosition;
+        if (GameManager.Instance.GetCurrentCheckpoint() == null)
+            transform.position = _defaultPosition;
+        else
+            transform.position = GameManager.Instance.GetCurrentCheckpoint()._spawnEmpty.position;
+    }
+
+    public void TeleportPlayerAtLastCheckpoint()
+    {
+
     }
 
 }

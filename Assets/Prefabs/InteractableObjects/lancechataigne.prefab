@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 1179260451620605049}
   - component: {fileID: 1179260451620605051}
   - component: {fileID: 1134611806}
+  - component: {fileID: 3212912722390788685}
   m_Layer: 11
   m_Name: lancechataigne
   m_TagString: Untagged
@@ -220,9 +221,12 @@ MonoBehaviour:
   playerSide: 0
   thisIsCarried: 0
   rotationOffset: {x: 0, y: 0, z: 0}
+  canBeCarried: 1
+  _saveHandsPosition: 0
   interactableObjectData: {fileID: 11400000, guid: d9f495bb1e548a847acec1b2618f8642,
     type: 2}
   bulletSpawner: {fileID: 1490461407}
+  pressurePlatform: {fileID: 0}
 --- !u!114 &1134611806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,3 +241,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splashPrefab: {fileID: 1000014033464604, guid: 8690dc1830d17654e977c7f07accf0ab,
     type: 3}
+  waterLevelOffset: {x: 0, y: 0, z: 0}
+  emitSplash: 1
+--- !u!114 &3212912722390788685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7168743484013942135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e169bd57c43b244caaeaad18f57d3ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mask:
+    serializedVersion: 2
+    m_Bits: 16
